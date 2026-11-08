@@ -109,9 +109,9 @@ export function Sidebar() {
         </div>
 
         <div className="flex items-center justify-between text-[11px] text-zinc-400 px-1">
-          <span className="flex items-center gap-1.5">
-            <ShieldCheck className="w-3.5 h-3.5 text-zinc-400" />
-            SaaS Enterprise
+          <span className="flex items-center gap-1.5 text-emerald-400 font-mono">
+            <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+            Plano Gratuito
           </span>
           <Link href="/" className="hover:text-cyan-400 transition-colors flex items-center gap-1">
             Landing <ExternalLink className="w-3 h-3" />

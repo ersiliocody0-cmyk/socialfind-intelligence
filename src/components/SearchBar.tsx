@@ -86,21 +86,24 @@ export function SearchBar({ query, onQueryChange, onSearch, isLoading = false }:
             </button>
           )}
 
-          {/* Action Button */}
+          {/* Action Button with Enhanced Loader State */}
           <button
             type="submit"
             disabled={!query.trim() || isLoading}
             className={clsx(
-              'px-4 md:px-6 py-2.5 rounded-lg font-medium text-xs tracking-wider uppercase font-mono flex items-center gap-2 transition-all shrink-0',
-              query.trim() && !isLoading
+              'px-4 md:px-6 py-2.5 rounded-lg font-medium text-xs tracking-wider uppercase font-mono flex items-center gap-2 transition-all shrink-0 relative overflow-hidden',
+              isLoading
+                ? 'bg-gradient-to-r from-cyan-400 to-emerald-400 text-black shadow-[0_0_25px_rgba(0,240,255,0.4)] cursor-wait'
+                : query.trim()
                 ? 'bg-gradient-to-r from-cyan-500 to-emerald-400 text-black hover:opacity-95 shadow-[0_0_20px_rgba(0,240,255,0.3)] active:scale-95'
                 : 'bg-white/[0.05] text-zinc-600 border border-white/[0.04] cursor-not-allowed'
             )}
           >
             {isLoading ? (
-              <>
+              <span className="flex items-center gap-2 font-semibold">
+                <Loader2 className="w-4 h-4 text-black animate-spin" />
                 <span>A Pesquisar...</span>
-              </>
+              </span>
             ) : (
               <>
                 <span>Pesquisar</span>
@@ -109,6 +112,11 @@ export function SearchBar({ query, onQueryChange, onSearch, isLoading = false }:
             )}
           </button>
         </div>
+
+        {/* Dynamic Scanning Line across the search bar when loading */}
+        {isLoading && (
+          <div className="absolute -bottom-[1px] left-2 right-2 h-[2px] bg-gradient-to-r from-transparent via-cyan-400 to-transparent animate-shimmer" />
+        )}
       </form>
 
       {/* Suggested Quick Queries */}

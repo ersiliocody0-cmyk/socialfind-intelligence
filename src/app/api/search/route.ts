@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { generateFacebookDorks } from '@/lib/dork-builder';
 import { getSearchProvider, RawSERPItem } from '@/lib/search-providers';
-import { processRawSearchResults } from '@/lib/result-processor';
+import { processRawSearchResults, groupResultsByFacebookPage } from '@/lib/result-processor';
 import { StorageService } from '@/lib/storage';
 import { DateFilterOption, SearchHistoryItem, SearchSummaryMetrics } from '@/types';
 
@@ -72,7 +72,9 @@ export async function POST(req: NextRequest) {
     // 4. Processing Pipeline: Domain check, Date evaluation, Deduplication, Relevance
     const processedResults = processRawSearchResults(rawItems, searchId, intent, dateFilter);
 
-    // 5. Compute Top Summary Metrics
+    // 5. Compute Top Summary Metrics & Aggregate into Facebook Pages
+    const pages = groupResultsByFacebookPage(processedResults);
+
     const now = new Date();
     const oneDayAgoMs = 24 * 60 * 60 * 1000;
     const sevenDaysAgoMs = 7 * 24 * 60 * 60 * 1000;
@@ -125,6 +127,7 @@ export async function POST(req: NextRequest) {
       intent,
       dorks,
       results: processedResults,
+      pages,
       metrics,
       providerName: provider.name,
       isDemo: providerStatus === 'demo' || processedResults.some(r => r.isDemo),

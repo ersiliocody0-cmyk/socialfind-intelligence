@@ -1,4 +1,4 @@
-import { ContentType, DateFilterOption, ParsedIntent, SearchResult } from '@/types';
+import { ContentType, DateFilterOption, ParsedIntent, SearchResult, FacebookPageGroup } from '@/types';
 import { evaluateResultDate } from './date-filter';
 
 /**
@@ -200,7 +200,36 @@ export function processRawSearchResults(
     // 6. Author or Group extraction
     const authorOrGroup = extractAuthorOrGroup(raw.title, normalizedUrl);
 
-    // 7. Relevance scoring
+    // 7. Page URL extraction & guaranteed working fallbacks
+    let pageUrl: string = 'https://www.facebook.com';
+    let pageName = authorOrGroup.replace(/^Grupo:\s*/i, '').trim();
+
+    if (normalizedUrl.includes('/groups/')) {
+      const match = normalizedUrl.match(/https?:\/\/[^\/]+\/groups\/([^\/?#]+)/i);
+      if (match && match[1]) {
+        pageUrl = `https://www.facebook.com/groups/${match[1]}`;
+      }
+    } else if (normalizedUrl.includes('/pages/')) {
+      const match = normalizedUrl.match(/https?:\/\/[^\/]+\/pages\/([^\/?#]+)/i);
+      if (match && match[1]) {
+        pageUrl = `https://www.facebook.com/pages/${match[1]}`;
+      }
+    } else if (normalizedUrl.includes('facebook.com/')) {
+      const match = normalizedUrl.match(/https?:\/\/[^\/]+\/([a-zA-Z0-9._-]+)(?:\/.*)?$/);
+      if (match && match[1] && !['search', 'watch', 'marketplace', 'groups', 'events', 'photo.php', 'permalink.php'].includes(match[1])) {
+        pageUrl = `https://www.facebook.com/${match[1]}`;
+      }
+    }
+
+    if (pageUrl === 'https://www.facebook.com' && pageName) {
+      pageUrl = `https://www.facebook.com/search/pages/?q=${encodeURIComponent(pageName)}`;
+    }
+
+    // Direct live Facebook search fallback query for this item (guaranteed live results)
+    const cleanSearchTerm = raw.title.replace(/\s*\|\s*Facebook$/i, '').trim() || intent.rawQuery;
+    const searchFallbackUrl = `https://www.facebook.com/search/posts/?q=${encodeURIComponent(cleanSearchTerm)}`;
+
+    // 8. Relevance scoring
     const relevanceScore = calculateRelevanceScore(raw.title, raw.snippet, normalizedUrl, intent);
 
     // Extract thumbnail if available in OpenGraph / pagemap
@@ -219,6 +248,10 @@ export function processRawSearchResults(
       url: normalizedUrl,
       sourceDomain: 'facebook.com',
       authorOrGroup,
+      pageName,
+      pageUrl,
+      searchFallbackUrl,
+      isPageVerified: relevanceScore >= 80,
       publishedAt: dateAnalysis.publishedAt,
       indexedAt: dateAnalysis.indexedAt,
       dateConfidence: dateAnalysis.confidence,
@@ -233,4 +266,68 @@ export function processRawSearchResults(
 
   // Sort by relevance score descending by default
   return results.sort((a, b) => b.relevanceScore - a.relevanceScore);
+}
+
+/**
+ * Aggregates and structures search results in the form of Facebook Pages (Pages view)
+ */
+export function groupResultsByFacebookPage(results: SearchResult[]): FacebookPageGroup[] {
+  const pageMap = new Map<string, FacebookPageGroup>();
+
+  for (const res of results) {
+    const pageName = res.pageName || res.authorOrGroup || 'Página do Facebook';
+    const key = pageName.toLowerCase().trim();
+
+    if (!pageMap.has(key)) {
+      const pageHandle = pageName
+        .toLowerCase()
+        .replace(/[^a-z0-9]/g, '.')
+        .replace(/\.+/g, '.')
+        .replace(/^\.|\.$/g, '') || 'facebook.page';
+
+      const avatarLetter = (pageName.replace(/^Grupo:\s*/i, '').trim()[0] || 'F').toUpperCase();
+
+      // Category derivation
+      let category = 'Geral';
+      const textToTest = `${pageName} ${res.title} ${res.description}`.toLowerCase();
+      if (/venda|compras|mercado|feira|loja|olx|preço|desapego/i.test(textToTest)) {
+        category = 'Comércio & Vendas';
+      } else if (/tecnologia|tech|computador|celular|iphone|samsung|informática/i.test(textToTest)) {
+        category = 'Tecnologia & Gadgets';
+      } else if (/emprego|vagas|oportunidades|trabalho|recrutamento/i.test(textToTest)) {
+        category = 'Emprego & Carreiras';
+      } else if (/imobili|casa|arrendar|apartamento|terreno/i.test(textToTest)) {
+        category = 'Imobiliário';
+      } else if (/auto|veiculos|carros|toyota|hilux|viaturas/i.test(textToTest)) {
+        category = 'Automóvel';
+      }
+
+      pageMap.set(key, {
+        id: `page-${Math.random().toString(36).substring(2, 10)}`,
+        pageName: pageName.replace(/^Grupo:\s*/i, '').trim(),
+        pageHandle: `@${pageHandle}`,
+        pageUrl: res.pageUrl || `https://www.facebook.com/search/pages/?q=${encodeURIComponent(pageName)}`,
+        searchUrl: res.searchFallbackUrl || `https://www.facebook.com/search/posts/?q=${encodeURIComponent(pageName)}`,
+        category,
+        isVerified: res.relevanceScore >= 80 || /oficial|comunidade|oficial/i.test(pageName),
+        totalPostsFound: 0,
+        relevanceScore: res.relevanceScore,
+        avatarLetter,
+        latestPostDate: res.publishedAt,
+        latestPostSnippet: res.description,
+        posts: [],
+      });
+    }
+
+    const group = pageMap.get(key)!;
+    group.totalPostsFound += 1;
+    group.posts.push(res);
+    if (res.relevanceScore > group.relevanceScore) {
+      group.relevanceScore = res.relevanceScore;
+    }
+  }
+
+  return Array.from(pageMap.values()).sort(
+    (a, b) => b.totalPostsFound - a.totalPostsFound || b.relevanceScore - a.relevanceScore
+  );
 }

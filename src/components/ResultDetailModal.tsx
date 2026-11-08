@@ -3,7 +3,7 @@
 import React from 'react';
 import { SearchResult } from '@/types';
 import { ConfidenceBadge, ContentTypeBadge } from './ui/Badge';
-import { X, ExternalLink, ShieldCheck, Calendar, Info, Globe, Copy, Check } from 'lucide-react';
+import { X, ExternalLink, ShieldCheck, Calendar, Info, Globe, Copy, Check, Search } from 'lucide-react';
 
 interface ResultDetailModalProps {
   result: SearchResult | null;
@@ -134,22 +134,49 @@ export function ResultDetailModal({ result, onClose }: ResultDetailModalProps) {
           </div>
         </div>
 
-        {/* Footer Actions */}
-        <div className="p-4 border-t border-white/[0.08] bg-zinc-950/40 flex items-center justify-between gap-3">
-          <button
-            onClick={onClose}
-            className="px-4 py-2 rounded-lg bg-white/[0.06] hover:bg-white/[0.12] text-xs font-medium text-white transition-all font-mono"
-          >
-            Fechar
-          </button>
+        {/* Footer Actions with Direct & Fallback Links */}
+        <div className="p-4 border-t border-white/[0.08] bg-zinc-950/40 flex items-center justify-between gap-3 flex-wrap">
+          <div className="flex items-center gap-2">
+            <button
+              onClick={onClose}
+              className="px-4 py-2 rounded-lg bg-white/[0.06] hover:bg-white/[0.12] text-xs font-medium text-white transition-all font-mono"
+            >
+              Fechar
+            </button>
+
+            {result.pageUrl && (
+              <a
+                href={result.pageUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-3 py-2 rounded-lg bg-white/[0.04] hover:bg-white/[0.08] text-xs font-mono text-zinc-300 hover:text-white flex items-center gap-1.5 transition-all"
+              >
+                <Globe className="w-3.5 h-3.5 text-cyan-400" />
+                <span>Página Oficial</span>
+              </a>
+            )}
+
+            {result.searchFallbackUrl && (
+              <a
+                href={result.searchFallbackUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-3 py-2 rounded-lg bg-white/[0.04] hover:bg-white/[0.08] text-xs font-mono text-zinc-300 hover:text-cyan-300 flex items-center gap-1.5 transition-all"
+                title="Pesquisar diretamente no Facebook caso o post original tenha sido arquivado"
+              >
+                <Search className="w-3.5 h-3.5 text-emerald-400" />
+                <span>Buscar no Facebook</span>
+              </a>
+            )}
+          </div>
 
           <a
             href={result.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="px-5 py-2.5 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-black text-xs font-semibold flex items-center gap-2 transition-all font-mono uppercase tracking-wider shadow-[0_0_15px_rgba(0,240,255,0.3)]"
+            className="px-5 py-2.5 rounded-lg bg-gradient-to-r from-cyan-500 to-emerald-400 text-black text-xs font-semibold flex items-center gap-2 transition-all font-mono uppercase tracking-wider shadow-[0_0_15px_rgba(0,240,255,0.3)] hover:opacity-95"
           >
-            <span>Ver Publicação Original no Facebook</span>
+            <span>Ver no Facebook</span>
             <ExternalLink className="w-3.5 h-3.5" />
           </a>
         </div>

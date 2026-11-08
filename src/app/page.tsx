@@ -17,8 +17,14 @@ import {
   ExternalLink,
   Flame,
   Globe2,
-  Lock
+  Lock,
+  Zap,
+  Globe,
+  Gift
 } from 'lucide-react';
+import { CyberGlobe3D } from '@/components/CyberGlobe3D';
+import { Card3D } from '@/components/Card3D';
+import { AnimatedNumber } from '@/components/AnimatedNumber';
 
 export default function LandingPage() {
   const router = useRouter();
@@ -66,7 +72,7 @@ export default function LandingPage() {
           <a href="#features" className="hover:text-cyan-400 transition-colors">Funcionalidades</a>
           <a href="#pipeline" className="hover:text-cyan-400 transition-colors">Pipeline 8 Etapas</a>
           <a href="#dorks" className="hover:text-cyan-400 transition-colors">Google Dorks</a>
-          <a href="#pricing" className="hover:text-cyan-400 transition-colors">Planos</a>
+          <a href="#free-access" className="hover:text-cyan-400 transition-colors">Plano Gratuito</a>
         </nav>
 
         <div className="flex items-center gap-3">
@@ -87,13 +93,19 @@ export default function LandingPage() {
       </header>
 
       {/* Hero Section */}
-      <section className="relative z-10 max-w-5xl mx-auto px-6 pt-20 pb-24 text-center">
+      <section className="relative z-10 max-w-5xl mx-auto px-6 pt-12 pb-20 text-center">
+        {/* 3D Cyber Globe Interactive Centerpiece */}
+        <div className="w-full max-w-[280px] sm:max-w-[340px] h-[240px] sm:h-[280px] mx-auto mb-2 relative">
+          <CyberGlobe3D size={320} className="w-full h-full" />
+          <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-[#060709] via-transparent to-transparent" />
+        </div>
+
         {/* Micro Pill */}
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.08] text-xs text-zinc-300 font-mono mb-8 shadow-sm">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.08] text-xs text-zinc-300 font-mono mb-6 shadow-sm">
           <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
-          <span>Motor de Busca de Fontes Abertas (OSINT)</span>
+          <span>Motor OSINT de Fontes Abertas</span>
           <span className="text-zinc-600">|</span>
-          <span className="text-cyan-400">Zero Graph API Bloqueios</span>
+          <span className="text-emerald-400">100% Gratuito Vitalício</span>
         </div>
 
         {/* Main Headline */}
@@ -104,8 +116,8 @@ export default function LandingPage() {
           </span>
         </h1>
 
-        <p className="max-w-2xl mx-auto text-base sm:text-lg text-zinc-400 leading-relaxed mb-10 font-normal">
-          Transforme linguagem natural em consultas avançadas de pesquisa. O SocialFind Intelligence localiza publicações públicas, grupos e anúncios no Facebook com filtros temporais rigorosos e auditoria de datas sem alucinações.
+        <p className="max-w-2xl mx-auto text-base sm:text-lg text-zinc-400 leading-relaxed mb-8 font-normal">
+          Transforme linguagem natural em consultas avançadas de pesquisa. O SocialFind localiza publicações públicas, páginas e grupos no Facebook com agrupamento em páginas, filtros temporais rigorosos e auditoria técnica.
         </p>
 
         {/* Interactive Search Simulator in Hero */}
@@ -146,23 +158,31 @@ export default function LandingPage() {
           </div>
         </div>
 
-        {/* Key Metrics Proof Strip */}
+        {/* Key Metrics Proof Strip with Number Animations */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto pt-8 border-t border-white/[0.06]">
           <div className="p-4 rounded-xl bg-white/[0.02] border border-white/[0.04]">
-            <div className="text-2xl font-bold font-mono text-cyan-400">100%</div>
+            <div className="text-2xl font-bold font-mono text-cyan-400">
+              <AnimatedNumber value={100} suffix="%" />
+            </div>
             <div className="text-xs text-zinc-400 mt-1">Domínios Facebook Validados</div>
           </div>
           <div className="p-4 rounded-xl bg-white/[0.02] border border-white/[0.04]">
-            <div className="text-2xl font-bold font-mono text-emerald-400">&lt; 1.2s</div>
-            <div className="text-xs text-zinc-400 mt-1">Tempo Médio de Descoberta</div>
+            <div className="text-2xl font-bold font-mono text-emerald-400">
+              <AnimatedNumber value={1.2} decimals={1} prefix="< " suffix="s" />
+            </div>
+            <div className="text-xs text-zinc-400 mt-1">Tempo Médio de Resposta</div>
           </div>
           <div className="p-4 rounded-xl bg-white/[0.02] border border-white/[0.04]">
-            <div className="text-2xl font-bold font-mono text-amber-400">Zero</div>
-            <div className="text-xs text-zinc-400 mt-1">Alucinações de Datas</div>
+            <div className="text-2xl font-bold font-mono text-amber-400">
+              <AnimatedNumber value={0} prefix="" suffix="€ Grátis" />
+            </div>
+            <div className="text-xs text-zinc-400 mt-1">Acesso 100% Livre de Custos</div>
           </div>
           <div className="p-4 rounded-xl bg-white/[0.02] border border-white/[0.04]">
-            <div className="text-2xl font-bold font-mono text-cyan-400">5+</div>
-            <div className="text-xs text-zinc-400 mt-1">Estratégias Google Dorks</div>
+            <div className="text-2xl font-bold font-mono text-cyan-400">
+              <AnimatedNumber value={5} suffix=" Estratégias" />
+            </div>
+            <div className="text-xs text-zinc-400 mt-1">Compiladores Google Dorks</div>
           </div>
         </div>
       </section>
@@ -283,100 +303,80 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Pricing / Tiers Section */}
-      <section id="pricing" className="relative z-10 max-w-7xl mx-auto px-6 py-20 border-t border-white/[0.06]">
-        <div className="text-center max-w-xl mx-auto mb-14">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-cyan-950/40 border border-cyan-800/40 text-cyan-400 text-[11px] font-mono uppercase tracking-wider mb-3">
-            Planos de Assinatura
+      {/* 100% Free Access Section (No Paid Tiers) */}
+      <section id="free-access" className="relative z-10 max-w-7xl mx-auto px-6 py-20 border-t border-white/[0.06]">
+        <div className="text-center max-w-xl mx-auto mb-12">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-950/40 border border-emerald-800/40 text-emerald-400 text-[11px] font-mono uppercase tracking-wider mb-3">
+            <Gift className="w-3.5 h-3.5" />
+            Acesso 100% Gratuito
           </div>
           <h2 className="text-3xl font-bold tracking-tight text-white mb-2">
-            Estrutura Comercial SaaS
+            Plano Gratuito Vitalício
           </h2>
           <p className="text-xs text-zinc-400">
-            Escalabilidade para investigadores individuais, agências de marketing e equipas de inteligência competitiva.
+            Acesso completo a todas as capacidades do SocialFind sem custos, sem cartões de crédito e sem planos pagos.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-          {/* Starter */}
-          <div className="p-6 rounded-2xl bg-[#0b0e14] border border-white/[0.08] flex flex-col justify-between space-y-6">
-            <div className="space-y-4">
-              <span className="text-xs font-mono uppercase tracking-wider text-zinc-400">Starter</span>
-              <div className="flex items-baseline gap-1">
-                <span className="text-3xl font-bold text-white font-mono">0€</span>
-                <span className="text-xs text-zinc-400">/ grátis para sempre</span>
-              </div>
-              <p className="text-xs text-zinc-400">
-                Ideal para testar o potencial dos Google Dorks e pesquisas pontuais em modo demo.
-              </p>
-              <ul className="space-y-2.5 text-xs text-zinc-300 font-mono">
-                <li className="flex items-center gap-2">✓ 25 pesquisas / dia</li>
-                <li className="flex items-center gap-2">✓ Modo Demonstração Completo</li>
-                <li className="flex items-center gap-2">✓ Histórico das últimas 24h</li>
-              </ul>
-            </div>
-            <Link
-              href="/app/search"
-              className="w-full py-2.5 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] text-xs font-semibold text-white text-center font-mono transition-all"
-            >
-              Começar Grátis
-            </Link>
-          </div>
+        <div className="max-w-3xl mx-auto">
+          <Card3D maxTilt={5}>
+            <div className="p-8 rounded-3xl bg-[#0c0f16]/95 border border-emerald-500/40 shadow-[0_0_40px_rgba(16,185,129,0.15)] relative overflow-hidden space-y-8">
+              {/* Top pill */}
+              <div className="flex items-center justify-between flex-wrap gap-4 border-b border-white/[0.08] pb-6">
+                <div>
+                  <span className="text-xs font-mono uppercase tracking-wider text-emerald-400 font-bold">
+                    Acesso Aberto & Irrestrito
+                  </span>
+                  <div className="flex items-baseline gap-2 mt-1">
+                    <span className="text-4xl font-extrabold text-white font-mono">0€</span>
+                    <span className="text-xs text-zinc-400 font-mono">/ totalmente grátis para sempre</span>
+                  </div>
+                </div>
 
-          {/* Pro (Recommended) */}
-          <div className="p-6 rounded-2xl bg-[#0e121a] border border-cyan-500/60 shadow-[0_0_30px_rgba(0,240,255,0.15)] flex flex-col justify-between space-y-6 relative">
-            <div className="absolute -top-3 right-6 px-2.5 py-0.5 rounded-full bg-cyan-500 text-black text-[10px] font-mono font-bold uppercase tracking-wider">
-              Recomendado
-            </div>
-            <div className="space-y-4">
-              <span className="text-xs font-mono uppercase tracking-wider text-cyan-400">Profissional</span>
-              <div className="flex items-baseline gap-1">
-                <span className="text-3xl font-bold text-white font-mono">29€</span>
-                <span className="text-xs text-zinc-400">/ mês</span>
+                <div className="px-3.5 py-1.5 rounded-full bg-emerald-950/80 border border-emerald-500/40 text-emerald-300 text-xs font-mono flex items-center gap-1.5">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                  <span>Nenhum Plano Pago</span>
+                </div>
               </div>
-              <p className="text-xs text-zinc-400">
-                Para profissionais que precisam de descoberta comercial, recrutamento e monitorização competitiva.
-              </p>
-              <ul className="space-y-2.5 text-xs text-zinc-300 font-mono">
-                <li className="flex items-center gap-2 text-cyan-300">✓ Pesquisas Ilimitadas via SERP</li>
-                <li className="flex items-center gap-2">✓ Filtros Temporais 24h a 30d</li>
-                <li className="flex items-center gap-2">✓ Exportação em CSV, JSON e Markdown</li>
-                <li className="flex items-center gap-2">✓ Conexão com Google CSE próprio</li>
-              </ul>
-            </div>
-            <Link
-              href="/app/search"
-              className="w-full py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-emerald-400 text-black text-xs font-semibold text-center font-mono uppercase tracking-wider transition-all shadow-[0_0_15px_rgba(0,240,255,0.3)] hover:opacity-95"
-            >
-              Iniciar Plano Pro
-            </Link>
-          </div>
 
-          {/* Enterprise */}
-          <div className="p-6 rounded-2xl bg-[#0b0e14] border border-white/[0.08] flex flex-col justify-between space-y-6">
-            <div className="space-y-4">
-              <span className="text-xs font-mono uppercase tracking-wider text-zinc-400">Enterprise</span>
-              <div className="flex items-baseline gap-1">
-                <span className="text-3xl font-bold text-white font-mono">99€</span>
-                <span className="text-xs text-zinc-400">/ mês</span>
+              {/* Grid of included capabilities */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-mono text-zinc-300">
+                <div className="flex items-center gap-2.5 p-3 rounded-xl bg-white/[0.02] border border-white/[0.04]">
+                  <CheckCircle2 className="w-4 h-4 text-cyan-400 shrink-0" />
+                  <span>Motor Avançado Google Dorks Completo</span>
+                </div>
+                <div className="flex items-center gap-2.5 p-3 rounded-xl bg-white/[0.02] border border-white/[0.04]">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                  <span>Agrupamento em Páginas do Facebook</span>
+                </div>
+                <div className="flex items-center gap-2.5 p-3 rounded-xl bg-white/[0.02] border border-white/[0.04]">
+                  <CheckCircle2 className="w-4 h-4 text-cyan-400 shrink-0" />
+                  <span>Filtros Temporais Estritos (24h a 30 dias)</span>
+                </div>
+                <div className="flex items-center gap-2.5 p-3 rounded-xl bg-white/[0.02] border border-white/[0.04]">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                  <span>Exportação em CSV, JSON e Markdown</span>
+                </div>
+                <div className="flex items-center gap-2.5 p-3 rounded-xl bg-white/[0.02] border border-white/[0.04]">
+                  <CheckCircle2 className="w-4 h-4 text-cyan-400 shrink-0" />
+                  <span>Links com Validação e Fallback Facebook</span>
+                </div>
+                <div className="flex items-center gap-2.5 p-3 rounded-xl bg-white/[0.02] border border-white/[0.04]">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                  <span>Modo Demonstração + Conexão SERP Própria</span>
+                </div>
               </div>
-              <p className="text-xs text-zinc-400">
-                Grandes organizações com múltiplos analistas, auditoria compliance e endpoints dedicados.
-              </p>
-              <ul className="space-y-2.5 text-xs text-zinc-300 font-mono">
-                <li className="flex items-center gap-2">✓ Múltiplos utilizadores de equipa</li>
-                <li className="flex items-center gap-2">✓ Webhooks de alerta em tempo real</li>
-                <li className="flex items-center gap-2">✓ Suporte prioritário 24/7</li>
-                <li className="flex items-center gap-2">✓ SLA 99.9% garantido</li>
-              </ul>
+
+              {/* Big CTA Button */}
+              <Link
+                href="/app/search"
+                className="w-full py-4 rounded-xl bg-gradient-to-r from-cyan-500 to-emerald-400 text-black text-sm font-bold text-center font-mono uppercase tracking-wider flex items-center justify-center gap-2 transition-all shadow-[0_0_25px_rgba(0,240,255,0.35)] hover:opacity-95 active:scale-[0.99]"
+              >
+                <span>Aceder Agora Gratuitamente</span>
+                <ArrowRight className="w-4 h-4" />
+              </Link>
             </div>
-            <Link
-              href="/app/search"
-              className="w-full py-2.5 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] text-xs font-semibold text-white text-center font-mono transition-all"
-            >
-              Falar com Vendas
-            </Link>
-          </div>
+          </Card3D>
         </div>
       </section>
 

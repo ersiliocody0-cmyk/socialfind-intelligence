@@ -41,6 +41,10 @@ export interface SearchResult {
   url: string;
   sourceDomain: string;
   authorOrGroup?: string;
+  pageName?: string;
+  pageUrl?: string;
+  searchFallbackUrl?: string;
+  isPageVerified?: boolean;
   publishedAt: string | null;
   indexedAt: string | null;
   dateConfidence: DateConfidenceLevel;
@@ -52,6 +56,29 @@ export interface SearchResult {
   dorkUsed?: string;
   isDemo?: boolean;
   createdAt: string;
+}
+
+export interface FacebookPageGroup {
+  id: string;
+  pageName: string;
+  pageHandle: string;
+  pageUrl: string;
+  searchUrl: string;
+  category: string;
+  isVerified: boolean;
+  totalPostsFound: number;
+  relevanceScore: number;
+  avatarLetter: string;
+  latestPostDate: string | null;
+  latestPostSnippet: string;
+  posts: SearchResult[];
+}
+
+export interface PaginationInfo {
+  currentPage: number;
+  pageSize: number;
+  totalPages: number;
+  totalItems: number;
 }
 
 export interface SearchSummaryMetrics {

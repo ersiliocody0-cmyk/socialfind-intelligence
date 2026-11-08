@@ -149,52 +149,58 @@ export class DemoSearchProvider implements ISearchProvider {
     const now = new Date();
     const offsetsInHours = [2, 5, 14, 26, 48, 72, 96, 120];
 
+    // Build guaranteed-valid Facebook search URLs so users never encounter "publicação não existe"
+    const encodedTerm = encodeURIComponent(baseTerm);
+    const fbSearchUrl = `https://www.facebook.com/search/posts/?q=${encodedTerm}`;
+    const fbMarketplaceUrl = `https://www.facebook.com/marketplace/search/?query=${encodedTerm}`;
+    const fbPagesUrl = `https://www.facebook.com/search/pages/?q=${encodedTerm}`;
+
     const mockPosts: RawSERPItem[] = [
       {
         title: `${baseTerm} - Em excelente estado com garantia | Vendas & Negócios`,
-        link: 'https://www.facebook.com/groups/feira.vendas.geral/posts/948271649281729/',
+        link: fbSearchUrl,
         snippet: `há 4 horas — Atenção pessoal, estou a disponibilizar ${baseTerm}. Acompanha caixa original, carregador e todos os acessórios. Contacto direto no WhatsApp ou mensagem privada. Preço negociável para entrega rápida.`,
         date: 'há 4 horas',
         isDemo: true,
       },
       {
         title: `Oportunidade urgente: ${baseTerm} disponível para entrega | Mercado Livre & Desapegos`,
-        link: 'https://www.facebook.com/groups/classificados.angola/posts/817294629471928/',
+        link: fbMarketplaceUrl,
         snippet: `há 1 dia — Vendo ${baseTerm} como novo, pouco tempo de uso. Motivo: aquisição de modelo recente. Localização: Centro da Cidade. Interessados por favor enviar mensagem com proposta.`,
         date: 'há 1 dia',
         isDemo: true,
       },
       {
-        title: `Publicação no Grupo Oficial: Informações e Valores sobre ${baseTerm}`,
-        link: 'https://www.facebook.com/groups/comunidade.tecnologia/permalink/102938475619283/',
+        title: `Publicação na Página Oficial: Informações e Valores sobre ${baseTerm}`,
+        link: `https://www.facebook.com/search/posts/?q=${encodedTerm}&filters=rp_creation_time%3Asub_past_7_days`,
         snippet: `há 2 dias — Quem estiver à procura de ${baseTerm}, ainda temos 3 unidades em stock com garantia de 6 meses. Emitimos fatura. Envio disponível para várias províncias.`,
         date: 'há 2 dias',
         isDemo: true,
       },
       {
         title: `Vídeo demonstrativo do produto: ${baseTerm} em funcionamento`,
-        link: 'https://www.facebook.com/watch/?v=382910471928475',
+        link: `https://www.facebook.com/search/videos/?q=${encodedTerm}`,
         snippet: `há 3 dias — Teste completo e análise do ${baseTerm}. Para orçamentos, encomendas ou questões comerciais, consulte o link na descrição ou comente abaixo.`,
         date: 'há 3 dias',
         isDemo: true,
       },
       {
         title: `Grande Saldão de Fim de Semana: ${baseTerm} e outros artigos`,
-        link: 'https://www.facebook.com/groups/oportunidades.luanda/posts/728193049182746/',
+        link: fbSearchUrl,
         snippet: `há 5 dias — Excelente oportunidade para quem procura ${baseTerm}. Aberto a propostas razoáveis. Entrega em mãos em local seguro e público.`,
         date: 'há 5 dias',
         isDemo: true,
       },
       {
         title: `Anúncio verificado: ${baseTerm} original com recibo`,
-        link: 'https://www.facebook.com/groups/compras.vendas.portugal/permalink/592817402819381/',
+        link: fbMarketplaceUrl,
         snippet: `há 6 dias — Disponibilizo ${baseTerm}. Totalmente funcional, sem marcas de uso acentuadas. Pagamento seguro por transferência ou numerário.`,
         date: 'há 6 dias',
         isDemo: true,
       },
       {
-        title: `Grupo de Discussão: Avaliações reais e recomendações de ${baseTerm}`,
-        link: 'https://www.facebook.com/groups/partilha.conhecimento/posts/401928374615284/',
+        title: `Página de Discussão & Comunidade: Avaliações reais de ${baseTerm}`,
+        link: fbPagesUrl,
         snippet: `há 1 semana — Publicação comunitária com debate sobre ${baseTerm}, comparação de preços de mercado e fornecedores recomendados pela comunidade.`,
         date: 'há 1 semana',
         isDemo: true,

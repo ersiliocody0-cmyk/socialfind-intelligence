@@ -2,6 +2,8 @@
 
 import React from 'react';
 import { SearchSummaryMetrics } from '@/types';
+import { Card3D } from './Card3D';
+import { AnimatedNumber } from './AnimatedNumber';
 import { Layers, Clock, Flame, ShieldCheck, Target, Sparkles } from 'lucide-react';
 
 interface MetricsCardsProps {
@@ -74,29 +76,30 @@ export function MetricsCards({ metrics, isDemo = false }: MetricsCardsProps) {
         {cards.map((card, idx) => {
           const Icon = card.icon;
           return (
-            <div
-              key={idx}
-              className="p-3.5 rounded-xl bg-[#0c0f15]/90 border border-white/[0.08] hover:border-white/[0.16] transition-all relative overflow-hidden group shadow-sm"
-            >
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-400">
-                  {card.label}
-                </span>
-                <div className={`p-1.5 rounded-md ${card.bgColor} ${card.borderColor} border`}>
-                  <Icon className={`w-3.5 h-3.5 ${card.color}`} />
+            <Card3D key={idx} maxTilt={5} glare={false}>
+              <div className="p-3.5 rounded-xl bg-[#0c0f15]/95 border border-white/[0.08] hover:border-white/[0.18] transition-all relative overflow-hidden group shadow-sm h-full flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-400">
+                      {card.label}
+                    </span>
+                    <div className={`p-1.5 rounded-md ${card.bgColor} ${card.borderColor} border`}>
+                      <Icon className={`w-3.5 h-3.5 ${card.color}`} />
+                    </div>
+                  </div>
+
+                  <div className="flex items-baseline gap-2">
+                    <span className="text-2xl font-bold tracking-tight text-white font-mono">
+                      <AnimatedNumber value={card.value} />
+                    </span>
+                  </div>
                 </div>
-              </div>
 
-              <div className="flex items-baseline gap-2">
-                <span className="text-2xl font-bold tracking-tight text-white font-mono">
-                  {card.value}
-                </span>
+                <p className="text-[10px] text-zinc-400 mt-2 line-clamp-1">
+                  {card.description}
+                </p>
               </div>
-
-              <p className="text-[10px] text-zinc-400 mt-1 line-clamp-1">
-                {card.description}
-              </p>
-            </div>
+            </Card3D>
           );
         })}
       </div>
