@@ -2,7 +2,7 @@
 
 > **Plataforma SaaS de Descoberta Avançada de Publicações Públicas no Facebook através de Google Dorks e Filtros Temporais Inteligentes.**
 
-Inspirado na linguagem estética minimalista, elegante e de alta precisão da engenharia suíça ([hodl.swiss](https://hodl.swiss/)).
+Link da hospedagem ([SocialFind](https://socialfind-intelligence.vercel.app/)).
 
 ---
 
