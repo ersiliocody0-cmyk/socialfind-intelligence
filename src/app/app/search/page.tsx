@@ -139,6 +139,8 @@ function SearchPageContent() {
     setIsLoading(true);
     setPendingConfig(false);
 
+    const startTime = Date.now();
+
     try {
       const response = await fetch('/api/search', {
         method: 'POST',
@@ -151,6 +153,12 @@ function SearchPageContent() {
           },
         }),
       });
+
+      // Ensure scanning feedback and skeletons are clearly visible for at least 750ms
+      const elapsed = Date.now() - startTime;
+      if (elapsed < 750) {
+        await new Promise((resolve) => setTimeout(resolve, 750 - elapsed));
+      }
 
       const data = await response.json();
 
@@ -259,9 +267,9 @@ function SearchPageContent() {
         isDemo={isDemoMode}
       />
 
-      <main className="p-6 md:p-8 space-y-6 max-w-7xl mx-auto w-full">
+      <main className="p-3.5 sm:p-6 md:p-8 space-y-5 sm:space-y-6 max-w-7xl mx-auto w-full">
         {/* Central Search Card */}
-        <section className="p-6 rounded-2xl bg-[#0b0e14]/90 border border-white/[0.08] shadow-sm space-y-5">
+        <section className="p-4 sm:p-6 rounded-2xl bg-[#0b0e14]/90 border border-white/[0.08] shadow-sm space-y-4 sm:space-y-5">
           <SearchBar
             query={query}
             onQueryChange={setQuery}

@@ -142,6 +142,17 @@ body {
     rgba(255, 255, 255, 0)
   );
   animation: skeleton-shimmer 2s infinite ease-out;
+  pointer-events: none !important;
+}
+
+/* Mobile responsive and touch optimizations */
+@layer utilities {
+  .tap-transparent {
+    -webkit-tap-highlight-color: transparent;
+  }
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom, 16px);
+  }
 }
 
 /* 3D floating keyframes */

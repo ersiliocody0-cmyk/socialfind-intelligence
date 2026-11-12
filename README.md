@@ -2,7 +2,7 @@
 
 > **Plataforma SaaS de Descoberta Avançada de Publicações Públicas no Facebook através de Google Dorks e Filtros Temporais Inteligentes.**
 
-Link da hospedagem ([SocialFind](https://socialfind-intelligence.vercel.app/)).
+Link da hospedagem ([hodl.swiss](https://hodl.swiss/)).
 
 ---
 

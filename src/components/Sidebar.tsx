@@ -13,10 +13,11 @@ import {
   FileDown, 
   Sliders, 
   User, 
-  Sparkles,
-  ExternalLink,
-  ShieldCheck,
-  ChevronRight
+  Sparkles, 
+  ExternalLink, 
+  ShieldCheck, 
+  ChevronRight,
+  X
 } from 'lucide-react';
 
 const navItems = [
@@ -30,15 +31,24 @@ const navItems = [
   { name: 'Perfil', href: '/app/profile', icon: User },
 ];
 
-export function Sidebar() {
+interface SidebarProps {
+  mobileOpen?: boolean;
+  onCloseMobile?: () => void;
+}
+
+export function Sidebar({ mobileOpen = false, onCloseMobile }: SidebarProps) {
   const pathname = usePathname();
 
-  return (
-    <aside className="w-64 border-r border-white/[0.08] bg-[#090b0f] flex flex-col justify-between shrink-0 h-screen sticky top-0 select-none z-30">
+  const sidebarContent = (
+    <div className="flex flex-col justify-between h-full">
       <div>
-        {/* Brand Logo */}
+        {/* Brand Logo & Mobile Close Button */}
         <div className="h-16 px-6 flex items-center justify-between border-b border-white/[0.06]">
-          <Link href="/app" className="flex items-center gap-3 group">
+          <Link 
+            href="/app" 
+            onClick={() => onCloseMobile?.()}
+            className="flex items-center gap-3 group"
+          >
             <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-cyan-500 to-emerald-400 p-[1px] shadow-glow-cyan transition-transform group-hover:scale-105">
               <div className="w-full h-full bg-[#090b0f] rounded-[7px] flex items-center justify-center">
                 <Sparkles className="w-4 h-4 text-cyan-400" />
@@ -51,6 +61,16 @@ export function Sidebar() {
               <p className="text-[10px] uppercase tracking-widest text-zinc-400 font-mono">Intelligence</p>
             </div>
           </Link>
+
+          {/* Close button for mobile drawer */}
+          <button
+            type="button"
+            onClick={onCloseMobile}
+            className="md:hidden p-2 rounded-lg text-zinc-400 hover:text-white hover:bg-white/[0.08] transition-colors"
+            title="Fechar menu"
+          >
+            <X className="w-5 h-5" />
+          </button>
         </div>
 
         {/* Navigation list */}
@@ -65,8 +85,9 @@ export function Sidebar() {
               <Link
                 key={item.href}
                 href={item.href}
+                onClick={() => onCloseMobile?.()}
                 className={clsx(
-                  'flex items-center justify-between px-3.5 py-2.5 rounded-lg text-xs font-medium transition-all group',
+                  'flex items-center justify-between px-3.5 py-2.5 rounded-lg text-xs font-medium transition-all group tap-transparent',
                   isActive
                     ? 'bg-white/[0.08] text-white border border-white/[0.12] shadow-sm'
                     : 'text-zinc-400 hover:text-white hover:bg-white/[0.04]'
@@ -118,6 +139,31 @@ export function Sidebar() {
           </Link>
         </div>
       </div>
-    </aside>
+    </div>
+  );
+
+  return (
+    <>
+      {/* Desktop Persistent Sidebar */}
+      <aside className="hidden md:flex w-64 border-r border-white/[0.08] bg-[#090b0f] flex-col justify-between shrink-0 h-screen sticky top-0 select-none z-30">
+        {sidebarContent}
+      </aside>
+
+      {/* Mobile Drawer (Slide-Over) */}
+      {mobileOpen && (
+        <div className="md:hidden fixed inset-0 z-50 flex">
+          {/* Backdrop overlay */}
+          <div
+            onClick={onCloseMobile}
+            className="fixed inset-0 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200"
+          />
+
+          {/* Drawer content panel */}
+          <aside className="relative w-72 max-w-[85vw] h-full bg-[#090b0f] border-r border-white/[0.1] shadow-2xl flex flex-col justify-between select-none z-10 animate-in slide-in-from-left duration-250">
+            {sidebarContent}
+          </aside>
+        </div>
+      )}
+    </>
   );
 }

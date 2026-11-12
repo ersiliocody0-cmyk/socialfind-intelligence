@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
-import { Search, X, Sparkles, ArrowRight, CornerDownLeft, Loader2 } from 'lucide-react';
+import React, { useState, useRef } from 'react';
+import { Search, X, Sparkles, CornerDownLeft, Loader2 } from 'lucide-react';
 import { clsx } from 'clsx';
 
 interface SearchBarProps {
@@ -18,7 +18,6 @@ const SEARCH_EXAMPLES = [
   'Casas para arrendar em Luanda',
   'Pessoas a procurar emprego',
   'Computadores portáteis usados',
-  'Publicações sobre oportunidades de negócio',
 ];
 
 export function SearchBar({ query, onQueryChange, onSearch, isLoading = false }: SearchBarProps) {
@@ -27,12 +26,16 @@ export function SearchBar({ query, onQueryChange, onSearch, isLoading = false }:
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (query.trim() && !isLoading) {
-      onSearch(query.trim());
+    if (isLoading) return;
+    const term = query.trim() || 'Samsung à venda';
+    if (!query.trim()) {
+      onQueryChange(term);
     }
+    onSearch(term);
   };
 
   const handleSelectExample = (example: string) => {
+    if (isLoading) return;
     onQueryChange(example);
     if (inputRef.current) {
       inputRef.current.focus();
@@ -53,7 +56,7 @@ export function SearchBar({ query, onQueryChange, onSearch, isLoading = false }:
           )}
         >
           {/* Search Icon / Loader */}
-          <div className="pl-4 pr-3 text-zinc-500">
+          <div className="pl-3 sm:pl-4 pr-2 sm:pr-3 text-zinc-500 shrink-0">
             {isLoading ? (
               <Loader2 className="w-5 h-5 text-cyan-400 animate-spin" />
             ) : (
@@ -71,7 +74,7 @@ export function SearchBar({ query, onQueryChange, onSearch, isLoading = false }:
             onBlur={() => setIsFocused(false)}
             placeholder="Que publicação estás à procura?"
             disabled={isLoading}
-            className="w-full bg-transparent text-white placeholder-zinc-500 text-sm md:text-base outline-none pr-3 py-2 font-normal"
+            className="w-full bg-transparent text-white placeholder-zinc-500 text-sm md:text-base outline-none pr-2 py-2 font-normal"
           />
 
           {/* Clear Button */}
@@ -79,35 +82,35 @@ export function SearchBar({ query, onQueryChange, onSearch, isLoading = false }:
             <button
               type="button"
               onClick={() => onQueryChange('')}
-              className="p-1.5 mr-1 rounded-md text-zinc-500 hover:text-white hover:bg-white/[0.08] transition-colors"
+              className="p-1.5 mr-1 rounded-md text-zinc-500 hover:text-white hover:bg-white/[0.08] transition-colors shrink-0 tap-transparent"
               title="Limpar pesquisa"
             >
               <X className="w-4 h-4" />
             </button>
           )}
 
-          {/* Action Button with Enhanced Loader State */}
+          {/* Action Button with Guaranteed Loader */}
           <button
             type="submit"
-            disabled={!query.trim() || isLoading}
+            disabled={isLoading}
             className={clsx(
-              'px-4 md:px-6 py-2.5 rounded-lg font-medium text-xs tracking-wider uppercase font-mono flex items-center gap-2 transition-all shrink-0 relative overflow-hidden',
+              'px-3.5 sm:px-6 py-2.5 rounded-lg font-medium text-xs tracking-wider uppercase font-mono flex items-center justify-center gap-2 transition-all shrink-0 relative overflow-hidden tap-transparent min-h-[42px]',
               isLoading
-                ? 'bg-gradient-to-r from-cyan-400 to-emerald-400 text-black shadow-[0_0_25px_rgba(0,240,255,0.4)] cursor-wait'
+                ? 'bg-gradient-to-r from-cyan-400 to-emerald-400 text-black shadow-[0_0_25px_rgba(0,240,255,0.4)] cursor-wait min-w-[120px]'
                 : query.trim()
                 ? 'bg-gradient-to-r from-cyan-500 to-emerald-400 text-black hover:opacity-95 shadow-[0_0_20px_rgba(0,240,255,0.3)] active:scale-95'
-                : 'bg-white/[0.05] text-zinc-600 border border-white/[0.04] cursor-not-allowed'
+                : 'bg-white/[0.08] text-white hover:bg-white/[0.15] border border-white/[0.1] active:scale-95'
             )}
           >
             {isLoading ? (
-              <span className="flex items-center gap-2 font-semibold">
+              <span className="flex items-center gap-2 font-semibold text-black">
                 <Loader2 className="w-4 h-4 text-black animate-spin" />
-                <span>A Pesquisar...</span>
+                <span className="text-[11px] sm:text-xs">A Pesquisar...</span>
               </span>
             ) : (
               <>
                 <span>Pesquisar</span>
-                <CornerDownLeft className="w-3.5 h-3.5 opacity-70" />
+                <CornerDownLeft className="w-3.5 h-3.5 opacity-70 hidden sm:inline" />
               </>
             )}
           </button>
@@ -115,24 +118,24 @@ export function SearchBar({ query, onQueryChange, onSearch, isLoading = false }:
 
         {/* Dynamic Scanning Line across the search bar when loading */}
         {isLoading && (
-          <div className="absolute -bottom-[1px] left-2 right-2 h-[2px] bg-gradient-to-r from-transparent via-cyan-400 to-transparent animate-shimmer" />
+          <div className="absolute -bottom-[1px] left-2 right-2 h-[2px] bg-gradient-to-r from-transparent via-cyan-400 to-transparent animate-shimmer pointer-events-none" />
         )}
       </form>
 
-      {/* Suggested Quick Queries */}
+      {/* Suggested Quick Queries - Horizontally Scrollable on Mobile */}
       <div className="flex items-center gap-2 overflow-x-auto pb-1 text-xs no-scrollbar">
         <span className="text-[11px] font-mono uppercase tracking-wider text-zinc-400 shrink-0 flex items-center gap-1">
           <Sparkles className="w-3 h-3 text-cyan-400" />
           Exemplos:
         </span>
-        <div className="flex items-center gap-1.5 flex-wrap">
+        <div className="flex items-center gap-1.5 flex-nowrap sm:flex-wrap">
           {SEARCH_EXAMPLES.map((ex) => (
             <button
               key={ex}
               type="button"
               onClick={() => handleSelectExample(ex)}
               disabled={isLoading}
-              className="px-2.5 py-1 rounded-full bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.06] hover:border-cyan-500/40 text-zinc-400 hover:text-white text-xs transition-all whitespace-nowrap"
+              className="px-2.5 py-1 rounded-full bg-white/[0.03] hover:bg-white/[0.08] active:bg-cyan-500/20 border border-white/[0.06] hover:border-cyan-500/40 text-zinc-400 hover:text-white text-xs transition-all whitespace-nowrap tap-transparent shrink-0"
             >
               {ex}
             </button>

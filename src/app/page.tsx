@@ -20,7 +20,10 @@ import {
   Lock,
   Zap,
   Globe,
-  Gift
+  Gift,
+  Loader2,
+  Menu,
+  X
 } from 'lucide-react';
 import { CyberGlobe3D } from '@/components/CyberGlobe3D';
 import { Card3D } from '@/components/Card3D';
@@ -29,14 +32,14 @@ import { AnimatedNumber } from '@/components/AnimatedNumber';
 export default function LandingPage() {
   const router = useRouter();
   const [heroQuery, setHeroQuery] = useState('');
+  const [isSearching, setIsSearching] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const handleHeroSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    if (heroQuery.trim()) {
-      router.push(`/app/search?q=${encodeURIComponent(heroQuery.trim())}`);
-    } else {
-      router.push('/app/search');
-    }
+    setIsSearching(true);
+    const term = heroQuery.trim() || 'Samsung à venda';
+    router.push(`/app/search?q=${encodeURIComponent(term)}`);
   };
 
   const sampleTags = [
@@ -53,7 +56,7 @@ export default function LandingPage() {
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] radial-glow pointer-events-none" />
 
       {/* Navigation Header */}
-      <header className="relative z-20 max-w-7xl mx-auto px-6 h-20 flex items-center justify-between border-b border-white/[0.06]">
+      <header className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between border-b border-white/[0.06]">
         <div className="flex items-center gap-3">
           <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-500 to-emerald-400 p-[1px] shadow-glow-cyan">
             <div className="w-full h-full bg-[#07090d] rounded-[11px] flex items-center justify-center">
@@ -62,7 +65,7 @@ export default function LandingPage() {
           </div>
           <div>
             <span className="font-semibold text-base tracking-tight text-white flex items-center gap-2">
-              SocialFind <span className="text-[10px] font-mono text-cyan-400 px-1.5 py-0.2 rounded bg-cyan-950/60 border border-cyan-800/40">SaaS</span>
+              SocialFind <span className="text-[10px] font-mono text-cyan-400 px-1.5 py-0.2 rounded bg-cyan-950/60 border border-cyan-800/40">v1.0</span>
             </span>
             <p className="text-[10px] uppercase tracking-widest text-zinc-400 font-mono">Intelligence</p>
           </div>
@@ -75,82 +78,141 @@ export default function LandingPage() {
           <a href="#free-access" className="hover:text-cyan-400 transition-colors">Plano Gratuito</a>
         </nav>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3">
           <Link
             href="/app/search"
-            className="px-4 py-2 rounded-lg bg-white/[0.06] hover:bg-white/[0.12] border border-white/[0.1] text-xs font-medium text-white transition-all font-mono"
+            className="hidden sm:inline-flex px-3.5 sm:px-4 py-2 rounded-lg bg-white/[0.06] hover:bg-white/[0.12] border border-white/[0.1] text-xs font-medium text-white transition-all font-mono"
           >
             Demo Sandbox
           </Link>
           <Link
             href="/app"
-            className="px-5 py-2 rounded-lg bg-gradient-to-r from-cyan-500 to-emerald-400 text-black text-xs font-semibold flex items-center gap-1.5 transition-all shadow-[0_0_20px_rgba(0,240,255,0.25)] hover:opacity-95 font-mono uppercase tracking-wider"
+            className="px-3.5 sm:px-5 py-2 sm:py-2 rounded-lg bg-gradient-to-r from-cyan-500 to-emerald-400 text-black text-xs font-semibold flex items-center gap-1.5 transition-all shadow-[0_0_20px_rgba(0,240,255,0.25)] hover:opacity-95 font-mono uppercase tracking-wider tap-transparent"
           >
             <span>Entrar na App</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </Link>
+
+          {/* Mobile Menu Toggle Button */}
+          <button
+            type="button"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="md:hidden p-2 rounded-lg text-zinc-400 hover:text-white hover:bg-white/[0.08] transition-colors ml-1"
+            title="Menu"
+          >
+            {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          </button>
         </div>
       </header>
 
+      {/* Mobile Drawer Menu */}
+      {mobileMenuOpen && (
+        <div className="md:hidden fixed inset-0 top-16 z-30 bg-[#060709]/95 backdrop-blur-xl border-b border-white/[0.1] p-6 space-y-4 animate-in slide-in-from-top duration-200">
+          <nav className="flex flex-col space-y-3 text-sm font-mono uppercase tracking-wider text-zinc-300">
+            <a
+              href="#features"
+              onClick={() => setMobileMenuOpen(false)}
+              className="p-3 rounded-xl bg-white/[0.03] hover:bg-white/[0.08] transition-colors"
+            >
+              Funcionalidades
+            </a>
+            <a
+              href="#pipeline"
+              onClick={() => setMobileMenuOpen(false)}
+              className="p-3 rounded-xl bg-white/[0.03] hover:bg-white/[0.08] transition-colors"
+            >
+              Pipeline 8 Etapas
+            </a>
+            <a
+              href="#dorks"
+              onClick={() => setMobileMenuOpen(false)}
+              className="p-3 rounded-xl bg-white/[0.03] hover:bg-white/[0.08] transition-colors"
+            >
+              Google Dorks
+            </a>
+            <a
+              href="#free-access"
+              onClick={() => setMobileMenuOpen(false)}
+              className="p-3 rounded-xl bg-cyan-950/30 border border-cyan-800/40 text-cyan-300 transition-colors"
+            >
+              Plano 100% Gratuito
+            </a>
+          </nav>
+        </div>
+      )}
+
       {/* Hero Section */}
-      <section className="relative z-10 max-w-5xl mx-auto px-6 pt-12 pb-20 text-center">
+      <section className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 pt-8 sm:pt-12 pb-16 sm:pb-20 text-center">
         {/* 3D Cyber Globe Interactive Centerpiece */}
-        <div className="w-full max-w-[280px] sm:max-w-[340px] h-[240px] sm:h-[280px] mx-auto mb-2 relative">
-          <CyberGlobe3D size={320} className="w-full h-full" />
+        <div className="w-full max-w-[240px] sm:max-w-[340px] h-[200px] sm:h-[280px] mx-auto mb-2 relative">
+          <CyberGlobe3D size={280} className="w-full h-full" />
           <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-[#060709] via-transparent to-transparent" />
         </div>
 
         {/* Micro Pill */}
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.08] text-xs text-zinc-300 font-mono mb-6 shadow-sm">
+        <div className="inline-flex items-center gap-2 px-3 sm:px-3.5 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.08] text-[11px] sm:text-xs text-zinc-300 font-mono mb-5 sm:mb-6 shadow-sm">
           <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
-          <span>Motor OSINT de Fontes Abertas</span>
+          <span>Motor OSINT Aberto</span>
           <span className="text-zinc-600">|</span>
           <span className="text-emerald-400">100% Gratuito Vitalício</span>
         </div>
 
         {/* Main Headline */}
-        <h1 className="text-4xl sm:text-6xl font-bold tracking-tight text-white leading-[1.1] mb-6">
+        <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight text-white leading-[1.1] mb-5 sm:mb-6">
           Descubra Publicações no Facebook{' '}
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-teal-300 to-emerald-400">
             através de Google Dorks
           </span>
         </h1>
 
-        <p className="max-w-2xl mx-auto text-base sm:text-lg text-zinc-400 leading-relaxed mb-8 font-normal">
+        <p className="max-w-2xl mx-auto text-sm sm:text-base md:text-lg text-zinc-400 leading-relaxed mb-6 sm:mb-8 font-normal px-2">
           Transforme linguagem natural em consultas avançadas de pesquisa. O SocialFind localiza publicações públicas, páginas e grupos no Facebook com agrupamento em páginas, filtros temporais rigorosos e auditoria técnica.
         </p>
 
         {/* Interactive Search Simulator in Hero */}
-        <div className="max-w-3xl mx-auto mb-8">
+        <div className="max-w-3xl mx-auto mb-8 px-1">
           <form onSubmit={handleHeroSearch} className="relative">
-            <div className="relative flex items-center p-2 rounded-2xl bg-[#0c0f16]/90 border border-white/[0.14] shadow-2xl focus-within:border-cyan-500/80 focus-within:shadow-[0_0_30px_rgba(0,240,255,0.2)] transition-all">
-              <Search className="w-6 h-6 text-zinc-500 ml-3 mr-2 shrink-0" />
+            <div className="relative flex items-center p-1.5 sm:p-2 rounded-2xl bg-[#0c0f16]/90 border border-white/[0.14] shadow-2xl focus-within:border-cyan-500/80 focus-within:shadow-[0_0_30px_rgba(0,240,255,0.2)] transition-all">
+              <Search className="w-5 h-5 sm:w-6 sm:h-6 text-zinc-500 ml-2.5 sm:ml-3 mr-1.5 sm:mr-2 shrink-0" />
               <input
                 type="text"
                 value={heroQuery}
                 onChange={(e) => setHeroQuery(e.target.value)}
                 placeholder="Que publicação estás à procura? (Ex: Samsung à venda)"
-                className="w-full bg-transparent text-white placeholder-zinc-500 text-sm sm:text-base outline-none py-2 font-normal"
+                className="w-full bg-transparent text-white placeholder-zinc-500 text-xs sm:text-sm md:text-base outline-none py-2 font-normal"
               />
               <button
                 type="submit"
-                className="px-6 py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-emerald-400 text-black text-xs font-semibold font-mono uppercase tracking-wider flex items-center gap-2 hover:opacity-95 transition-all shadow-[0_0_15px_rgba(0,240,255,0.3)] shrink-0"
+                disabled={isSearching}
+                className="px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-emerald-400 text-black text-xs font-semibold font-mono uppercase tracking-wider flex items-center justify-center gap-1.5 sm:gap-2 hover:opacity-95 transition-all shadow-[0_0_15px_rgba(0,240,255,0.3)] shrink-0 min-h-[42px] tap-transparent"
               >
-                <span>Descobrir</span>
-                <ArrowRight className="w-4 h-4" />
+                {isSearching ? (
+                  <span className="flex items-center gap-1.5">
+                    <Loader2 className="w-4 h-4 text-black animate-spin" />
+                    <span className="hidden sm:inline">A Abrir...</span>
+                  </span>
+                ) : (
+                  <>
+                    <span>Descobrir</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </>
+                )}
               </button>
             </div>
           </form>
 
           {/* Quick tags */}
-          <div className="flex items-center justify-center gap-2 flex-wrap mt-4 text-xs">
+          <div className="flex items-center justify-center gap-1.5 sm:gap-2 flex-wrap mt-3.5 text-xs">
             <span className="text-[11px] font-mono text-zinc-400 uppercase tracking-wider">Testar:</span>
             {sampleTags.map((tag) => (
               <button
                 key={tag}
                 type="button"
-                onClick={() => router.push(`/app/search?q=${encodeURIComponent(tag)}`)}
-                className="px-2.5 py-1 rounded-full bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.06] hover:border-cyan-500/40 text-zinc-300 text-xs transition-all"
+                onClick={() => {
+                  setIsSearching(true);
+                  router.push(`/app/search?q=${encodeURIComponent(tag)}`);
+                }}
+                className="px-2.5 py-1 rounded-full bg-white/[0.04] hover:bg-white/[0.08] active:bg-cyan-500/20 border border-white/[0.06] hover:border-cyan-500/40 text-zinc-300 text-xs transition-all tap-transparent"
               >
                 {tag}
               </button>
