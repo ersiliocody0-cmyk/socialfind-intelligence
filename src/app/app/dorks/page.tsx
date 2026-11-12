@@ -4,6 +4,8 @@ import React, { useState } from 'react';
 import { Header } from '@/components/Header';
 import { generateFacebookDorks } from '@/lib/dork-builder';
 import { DateFilterOption, DorkQuery, ParsedIntent } from '@/types';
+import { AnimatedSection } from '@/components/AnimatedSection';
+import { StaggerList, StaggerItem } from '@/components/StaggerList';
 import { 
   Terminal, 
   Copy, 
@@ -49,7 +51,7 @@ export default function DorksStudioPage() {
 
       <main className="p-6 md:p-8 space-y-6 max-w-7xl mx-auto w-full">
         {/* Studio Controls Card */}
-        <section className="p-6 rounded-2xl bg-[#0b0e14] border border-white/[0.08] space-y-5">
+        <AnimatedSection className="p-6 rounded-2xl bg-[#0b0e14] border border-white/[0.08] space-y-5">
           <div className="flex items-center gap-2">
             <Terminal className="w-5 h-5 text-cyan-400" />
             <h2 className="text-base font-semibold text-white tracking-tight">
@@ -92,10 +94,10 @@ export default function DorksStudioPage() {
               </select>
             </div>
           </div>
-        </section>
+        </AnimatedSection>
 
         {/* Parsed Intent Intelligence Summary */}
-        <section className="p-5 rounded-xl bg-zinc-900/40 border border-white/[0.06] space-y-3">
+        <AnimatedSection className="p-5 rounded-xl bg-zinc-900/40 border border-white/[0.06] space-y-3">
           <div className="flex items-center justify-between">
             <span className="text-xs font-mono uppercase tracking-wider text-zinc-400 flex items-center gap-1.5">
               <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
@@ -120,10 +122,10 @@ export default function DorksStudioPage() {
               <span className="text-emerald-400 font-medium">{intent.synonyms.slice(0, 3).join(', ') || 'N/A'}</span>
             </div>
           </div>
-        </section>
+        </AnimatedSection>
 
         {/* Dorks Variations Output */}
-        <section className="space-y-4">
+        <AnimatedSection className="space-y-4">
           <div className="flex items-center justify-between">
             <h3 className="text-sm font-semibold text-white tracking-tight flex items-center gap-2">
               <Code className="w-4 h-4 text-cyan-400" />
@@ -132,9 +134,9 @@ export default function DorksStudioPage() {
             <span className="text-[11px] font-mono text-zinc-500">Prontas para execução direta</span>
           </div>
 
-          <div className="space-y-4">
+          <StaggerList className="space-y-4" staggerDelay={0.06}>
             {dorks.map((dork) => (
-              <div
+              <StaggerItem
                 key={dork.id}
                 className="p-5 rounded-2xl bg-[#0b0e14] border border-white/[0.08] hover:border-white/[0.18] transition-all space-y-3"
               >
@@ -175,10 +177,10 @@ export default function DorksStudioPage() {
                   <HelpCircle className="w-4 h-4 text-zinc-500 shrink-0 mt-0.5" />
                   <span>{dork.explanation}</span>
                 </p>
-              </div>
+              </StaggerItem>
             ))}
-          </div>
-        </section>
+          </StaggerList>
+        </AnimatedSection>
       </main>
     </>
   );

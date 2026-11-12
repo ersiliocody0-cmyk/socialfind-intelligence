@@ -6,12 +6,16 @@ import { Header } from '@/components/Header';
 import { FavoriteItem, SearchResult } from '@/types';
 import { PostCard } from '@/components/PostCard';
 import { ResultDetailModal } from '@/components/ResultDetailModal';
-import { Bookmark, Download, ExternalLink, Trash2 } from 'lucide-react';
+import { SkeletonPostCard } from '@/components/SkeletonLoader';
+import { AnimatedSection } from '@/components/AnimatedSection';
+import { StaggerList, StaggerItem } from '@/components/StaggerList';
+import { Bookmark, Download, ExternalLink, Trash2, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 
 export default function FavoritesPage() {
   const [favorites, setFavorites] = useState<FavoriteItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isExporting, setIsExporting] = useState(false);
   const [selectedResult, setSelectedResult] = useState<SearchResult | null>(null);
 
   const fetchFavorites = () => {
@@ -43,6 +47,7 @@ export default function FavoritesPage() {
 
   const handleExportFavorites = async () => {
     if (favorites.length === 0) return;
+    setIsExporting(true);
     try {
       const results = favorites.map((f) => f.result);
       const res = await fetch('/api/export', {
@@ -59,9 +64,11 @@ export default function FavoritesPage() {
       a.click();
       window.URL.revokeObjectURL(url);
       document.body.removeChild(a);
-      toast.success('Favoritos exportados em CSV.');
+      toast.success('Favoritos exportados em CSV com sucesso.');
     } catch {
       toast.error('Erro ao exportar.');
+    } finally {
+      setIsExporting(false);
     }
   };
 
@@ -73,7 +80,7 @@ export default function FavoritesPage() {
       />
 
       <main className="p-6 md:p-8 space-y-6 max-w-7xl mx-auto w-full">
-        <div className="flex items-center justify-between">
+        <AnimatedSection className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Bookmark className="w-5 h-5 text-cyan-400" />
             <h2 className="text-base font-semibold text-white tracking-tight">
@@ -84,30 +91,43 @@ export default function FavoritesPage() {
           {favorites.length > 0 && (
             <button
               onClick={handleExportFavorites}
-              className="px-3 py-1.5 rounded-lg bg-white/[0.06] hover:bg-white/[0.12] border border-white/[0.08] text-xs font-mono text-zinc-300 hover:text-white flex items-center gap-1.5 transition-all"
+              disabled={isExporting}
+              className="px-3.5 py-1.5 rounded-lg bg-white/[0.06] hover:bg-white/[0.12] disabled:opacity-50 border border-white/[0.08] text-xs font-mono text-zinc-300 hover:text-white flex items-center gap-1.5 transition-all"
             >
-              <Download className="w-3.5 h-3.5" />
-              <span>Exportar CSV</span>
+              {isExporting ? (
+                <>
+                  <Loader2 className="w-3.5 h-3.5 animate-spin text-cyan-400" />
+                  <span>A exportar...</span>
+                </>
+              ) : (
+                <>
+                  <Download className="w-3.5 h-3.5" />
+                  <span>Exportar CSV</span>
+                </>
+              )}
             </button>
           )}
-        </div>
+        </AnimatedSection>
 
         {isLoading ? (
-          <div className="p-8 text-center text-xs font-mono text-zinc-500">
-            A carregar favoritos...
-          </div>
-        ) : favorites.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {favorites.map((fav) => (
-              <PostCard
-                key={fav.id}
-                result={fav.result}
-                isFavorite={true}
-                onToggleFavorite={handleToggleFavorite}
-                onOpenDetails={(r) => setSelectedResult(r)}
-              />
+            {[1, 2, 3, 4, 5, 6].map((i) => (
+              <SkeletonPostCard key={i} />
             ))}
           </div>
+        ) : favorites.length > 0 ? (
+          <StaggerList className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" staggerDelay={0.06}>
+            {favorites.map((fav) => (
+              <StaggerItem key={fav.id}>
+                <PostCard
+                  result={fav.result}
+                  isFavorite={true}
+                  onToggleFavorite={handleToggleFavorite}
+                  onOpenDetails={(r) => setSelectedResult(r)}
+                />
+              </StaggerItem>
+            ))}
+          </StaggerList>
         ) : (
           <div className="p-12 rounded-2xl bg-[#0b0e14]/50 border border-white/[0.06] text-center space-y-3 max-w-md mx-auto my-8">
             <Bookmark className="w-6 h-6 mx-auto text-zinc-600" />

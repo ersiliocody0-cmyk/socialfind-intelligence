@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Header } from '@/components/Header';
+import { AnimatedSection } from '@/components/AnimatedSection';
 import { 
   Sliders, 
   Key, 
@@ -11,7 +12,8 @@ import {
   Check, 
   ExternalLink,
   Info,
-  Server
+  Server,
+  Loader2
 } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -22,6 +24,7 @@ export default function SettingsPage() {
   const [googleCx, setGoogleCx] = useState('');
   const [serperApiKey, setSerperApiKey] = useState('');
   const [strictDomain, setStrictDomain] = useState(true);
+  const [isSaving, setIsSaving] = useState(false);
 
   // Load from localStorage on mount
   useEffect(() => {
@@ -42,20 +45,25 @@ export default function SettingsPage() {
   }, []);
 
   const handleSave = () => {
-    try {
-      const settings = {
-        provider,
-        demoMode,
-        googleApiKey,
-        googleCx,
-        serperApiKey,
-        strictDomain,
-      };
-      localStorage.setItem('socialfind_settings', JSON.stringify(settings));
-      toast.success('Configurações guardadas com sucesso!');
-    } catch {
-      toast.error('Erro ao guardar configurações.');
-    }
+    setIsSaving(true);
+    setTimeout(() => {
+      try {
+        const settings = {
+          provider,
+          demoMode,
+          googleApiKey,
+          googleCx,
+          serperApiKey,
+          strictDomain,
+        };
+        localStorage.setItem('socialfind_settings', JSON.stringify(settings));
+        toast.success('Configurações guardadas com sucesso!');
+      } catch {
+        toast.error('Erro ao guardar configurações.');
+      } finally {
+        setIsSaving(false);
+      }
+    }, 400);
   };
 
   return (
@@ -67,7 +75,7 @@ export default function SettingsPage() {
 
       <main className="p-6 md:p-8 space-y-6 max-w-4xl mx-auto w-full">
         {/* SERP Engine Selection */}
-        <div className="p-6 rounded-2xl bg-[#0b0e14] border border-white/[0.08] space-y-6">
+        <AnimatedSection className="p-6 rounded-2xl bg-[#0b0e14] border border-white/[0.08] space-y-6">
           <div className="flex items-center justify-between">
             <div className="space-y-1">
               <h2 className="text-sm font-semibold text-white tracking-tight flex items-center gap-2">
@@ -198,10 +206,10 @@ export default function SettingsPage() {
               </p>
             </div>
           )}
-        </div>
+        </AnimatedSection>
 
         {/* Global Security & Filtering Policies */}
-        <div className="p-6 rounded-2xl bg-[#0b0e14] border border-white/[0.08] space-y-4">
+        <AnimatedSection className="p-6 rounded-2xl bg-[#0b0e14] border border-white/[0.08] space-y-4">
           <h2 className="text-sm font-semibold text-white tracking-tight flex items-center gap-2">
             <ShieldCheck className="w-4 h-4 text-emerald-400" />
             <span>Políticas de Filtragem e Conformidade</span>
@@ -234,17 +242,27 @@ export default function SettingsPage() {
               />
             </div>
           </div>
-        </div>
+        </AnimatedSection>
 
         {/* Save Bar */}
         <div className="flex justify-end">
           <button
             type="button"
             onClick={handleSave}
-            className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-emerald-400 text-black text-xs font-semibold font-mono uppercase tracking-wider flex items-center gap-2 shadow-[0_0_20px_rgba(0,240,255,0.25)] hover:opacity-95 transition-all"
+            disabled={isSaving}
+            className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-emerald-400 disabled:opacity-50 text-black text-xs font-semibold font-mono uppercase tracking-wider flex items-center gap-2 shadow-[0_0_20px_rgba(0,240,255,0.25)] hover:opacity-95 transition-all"
           >
-            <Save className="w-4 h-4" />
-            <span>Guardar Configurações</span>
+            {isSaving ? (
+              <>
+                <Loader2 className="w-4 h-4 text-black animate-spin" />
+                <span>A guardar...</span>
+              </>
+            ) : (
+              <>
+                <Save className="w-4 h-4" />
+                <span>Guardar Configurações</span>
+              </>
+            )}
           </button>
         </div>
       </main>

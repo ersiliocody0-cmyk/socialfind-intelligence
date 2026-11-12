@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { Toaster } from 'sonner';
+import { TopProgressBar } from '@/components/TopProgressBar';
 
 export const metadata: Metadata = {
   title: 'SocialFind Intelligence | Descoberta Avançada de Publicações Facebook via Google Dorks',
@@ -15,6 +16,7 @@ export default function RootLayout({
   return (
     <html lang="pt" className="dark">
       <body className="min-h-screen bg-[#060709] text-slate-100 antialiased selection:bg-cyan-500/30 selection:text-cyan-200">
+        <TopProgressBar />
         {children}
         <Toaster 
           position="bottom-right" 

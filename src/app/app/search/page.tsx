@@ -13,6 +13,8 @@ import { ResultDetailModal } from '@/components/ResultDetailModal';
 import { PendingConfigNotice } from '@/components/PendingConfigNotice';
 import { ActivityCharts } from '@/components/ActivityCharts';
 import { AnimatedNumber } from '@/components/AnimatedNumber';
+import { AnimatedSection } from '@/components/AnimatedSection';
+import { StaggerList, StaggerItem } from '@/components/StaggerList';
 import { 
   SkeletonMetrics, 
   SkeletonPostCard, 
@@ -478,15 +480,16 @@ function SearchPageContent() {
                   <span className="text-cyan-400">Página {currentPage} de {totalPageGroups}</span>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <StaggerList className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" staggerDelay={0.05}>
                   {paginatedPages.map((pageGroup) => (
-                    <FacebookPageCard
-                      key={pageGroup.id}
-                      page={pageGroup}
-                      onOpenResultDetails={(r) => setSelectedResultForDetail(r)}
-                    />
+                    <StaggerItem key={pageGroup.id}>
+                      <FacebookPageCard
+                        page={pageGroup}
+                        onOpenResultDetails={(r) => setSelectedResultForDetail(r)}
+                      />
+                    </StaggerItem>
                   ))}
-                </div>
+                </StaggerList>
               </div>
             ) : results.length > 0 ? (
               <div className="p-8 rounded-xl bg-[#0b0e14] border border-white/[0.06] text-center text-xs text-zinc-400 font-mono">
@@ -504,17 +507,18 @@ function SearchPageContent() {
                   <span className="text-cyan-400">Página {currentPage} de {totalPostPages}</span>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <StaggerList className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" staggerDelay={0.05}>
                   {paginatedPosts.map((result) => (
-                    <PostCard
-                      key={result.id}
-                      result={result}
-                      isFavorite={Boolean(favoritesMap[result.id])}
-                      onToggleFavorite={handleToggleFavorite}
-                      onOpenDetails={(r) => setSelectedResultForDetail(r)}
-                    />
+                    <StaggerItem key={result.id}>
+                      <PostCard
+                        result={result}
+                        isFavorite={Boolean(favoritesMap[result.id])}
+                        onToggleFavorite={handleToggleFavorite}
+                        onOpenDetails={(r) => setSelectedResultForDetail(r)}
+                      />
+                    </StaggerItem>
                   ))}
-                </div>
+                </StaggerList>
               </div>
             ) : results.length === 0 && !isLoading && !pendingConfig ? (
               <div className="p-12 rounded-2xl bg-[#0b0e14]/50 border border-white/[0.06] text-center space-y-4 max-w-xl mx-auto my-6">
@@ -597,9 +601,9 @@ function SearchPageContent() {
 
         {/* Analytics Charts Drawer */}
         {results.length > 0 && !pendingConfig && !isLoading && (
-          <section className="pt-4 border-t border-white/[0.06]">
+          <AnimatedSection className="pt-4 border-t border-white/[0.06]">
             <ActivityCharts results={results} />
-          </section>
+          </AnimatedSection>
         )}
       </main>
 
@@ -622,7 +626,7 @@ function SearchPageContent() {
 
 export default function SearchPage() {
   return (
-    <Suspense fallback={<div className="p-8 text-xs font-mono text-zinc-500">A carregar motor de pesquisa...</div>}>
+    <Suspense fallback={<div className="p-8 max-w-7xl mx-auto"><SkeletonMetrics /></div>}>
       <SearchPageContent />
     </Suspense>
   );

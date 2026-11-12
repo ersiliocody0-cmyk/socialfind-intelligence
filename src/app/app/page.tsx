@@ -21,25 +21,26 @@ import {
   Gift
 } from 'lucide-react';
 import { SearchHistoryItem } from '@/types';
+import { SkeletonHistoryRow } from '@/components/SkeletonLoader';
+import { AnimatedSection } from '@/components/AnimatedSection';
+import { StaggerList, StaggerItem } from '@/components/StaggerList';
 
 export default function DashboardOverviewPage() {
   const [history, setHistory] = useState<SearchHistoryItem[]>([]);
   const [favoritesCount, setFavoritesCount] = useState<number>(0);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    fetch('/api/history')
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.history) setHistory(data.history);
+    Promise.all([
+      fetch('/api/history').then((res) => res.json()),
+      fetch('/api/favorites').then((res) => res.json()),
+    ])
+      .then(([historyData, favoritesData]) => {
+        if (historyData.history) setHistory(historyData.history);
+        if (favoritesData.favorites) setFavoritesCount(favoritesData.favorites.length);
       })
-      .catch(() => {});
-
-    fetch('/api/favorites')
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.favorites) setFavoritesCount(data.favorites.length);
-      })
-      .catch(() => {});
+      .catch(() => {})
+      .finally(() => setIsLoading(false));
   }, []);
 
   const trendingTopics = [
@@ -103,51 +104,59 @@ export default function DashboardOverviewPage() {
         </Card3D>
 
         {/* Global Statistics Overview with Animated Numbers */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <Card3D maxTilt={5} glare={false}>
-            <div className="p-4 rounded-xl bg-[#0b0e14] border border-white/[0.08] space-y-1 h-full">
-              <span className="text-[10px] font-mono uppercase text-zinc-400">Total de Pesquisas</span>
-              <div className="text-2xl font-bold font-mono text-white">
-                <AnimatedNumber value={history.length} />
+        <StaggerList className="grid grid-cols-2 md:grid-cols-4 gap-4" staggerDelay={0.06}>
+          <StaggerItem>
+            <Card3D maxTilt={5} glare={false}>
+              <div className="p-4 rounded-xl bg-[#0b0e14] border border-white/[0.08] space-y-1 h-full">
+                <span className="text-[10px] font-mono uppercase text-zinc-400">Total de Pesquisas</span>
+                <div className="text-2xl font-bold font-mono text-white">
+                  <AnimatedNumber value={history.length} />
+                </div>
+                <p className="text-[11px] text-zinc-400">Registadas nesta sessão</p>
               </div>
-              <p className="text-[11px] text-zinc-400">Registadas nesta sessão</p>
-            </div>
-          </Card3D>
+            </Card3D>
+          </StaggerItem>
 
-          <Card3D maxTilt={5} glare={false}>
-            <div className="p-4 rounded-xl bg-[#0b0e14] border border-white/[0.08] space-y-1 h-full">
-              <span className="text-[10px] font-mono uppercase text-zinc-400">Favoritos Guardados</span>
-              <div className="text-2xl font-bold font-mono text-cyan-400">
-                <AnimatedNumber value={favoritesCount} />
+          <StaggerItem>
+            <Card3D maxTilt={5} glare={false}>
+              <div className="p-4 rounded-xl bg-[#0b0e14] border border-white/[0.08] space-y-1 h-full">
+                <span className="text-[10px] font-mono uppercase text-zinc-400">Favoritos Guardados</span>
+                <div className="text-2xl font-bold font-mono text-cyan-400">
+                  <AnimatedNumber value={favoritesCount} />
+                </div>
+                <p className="text-[11px] text-zinc-400">Publicações arquivadas</p>
               </div>
-              <p className="text-[11px] text-zinc-400">Publicações arquivadas</p>
-            </div>
-          </Card3D>
+            </Card3D>
+          </StaggerItem>
 
-          <Card3D maxTilt={5} glare={false}>
-            <div className="p-4 rounded-xl bg-[#0b0e14] border border-white/[0.08] space-y-1 h-full">
-              <span className="text-[10px] font-mono uppercase text-zinc-400">Validação Temporal</span>
-              <div className="text-2xl font-bold font-mono text-emerald-400">
-                <AnimatedNumber value={100} suffix="%" />
+          <StaggerItem>
+            <Card3D maxTilt={5} glare={false}>
+              <div className="p-4 rounded-xl bg-[#0b0e14] border border-white/[0.08] space-y-1 h-full">
+                <span className="text-[10px] font-mono uppercase text-zinc-400">Validação Temporal</span>
+                <div className="text-2xl font-bold font-mono text-emerald-400">
+                  <AnimatedNumber value={100} suffix="%" />
+                </div>
+                <p className="text-[11px] text-zinc-400">Sem datas alucinadas</p>
               </div>
-              <p className="text-[11px] text-zinc-400">Sem datas alucinadas</p>
-            </div>
-          </Card3D>
+            </Card3D>
+          </StaggerItem>
 
-          <Card3D maxTilt={5} glare={false}>
-            <div className="p-4 rounded-xl bg-[#0b0e14] border border-white/[0.08] space-y-1 h-full">
-              <span className="text-[10px] font-mono uppercase text-zinc-400">Plano Ativo</span>
-              <div className="text-2xl font-bold font-mono text-emerald-400 flex items-center gap-1.5">
-                <Gift className="w-5 h-5 text-emerald-400 inline" />
-                <span>Gratuito</span>
+          <StaggerItem>
+            <Card3D maxTilt={5} glare={false}>
+              <div className="p-4 rounded-xl bg-[#0b0e14] border border-white/[0.08] space-y-1 h-full">
+                <span className="text-[10px] font-mono uppercase text-zinc-400">Plano Ativo</span>
+                <div className="text-2xl font-bold font-mono text-emerald-400 flex items-center gap-1.5">
+                  <Gift className="w-5 h-5 text-emerald-400 inline" />
+                  <span>Gratuito</span>
+                </div>
+                <p className="text-[11px] text-zinc-400">Acesso livre vitalício</p>
               </div>
-              <p className="text-[11px] text-zinc-400">Acesso livre vitalício</p>
-            </div>
-          </Card3D>
-        </div>
+            </Card3D>
+          </StaggerItem>
+        </StaggerList>
 
         {/* Trending Discovery Queries */}
-        <div className="space-y-4">
+        <AnimatedSection className="space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <TrendingUp className="w-4 h-4 text-cyan-400" />
@@ -158,32 +167,34 @@ export default function DashboardOverviewPage() {
             <span className="text-[11px] font-mono text-zinc-400">Prontos para 1-Clique</span>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          <StaggerList className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3" staggerDelay={0.05}>
             {trendingTopics.map((topic, i) => (
-              <Card3D key={i} maxTilt={6} glare={false}>
-                <Link
-                  href={`/app/search?q=${encodeURIComponent(topic.title)}`}
-                  className="p-4 rounded-xl bg-[#0b0e14] border border-white/[0.08] hover:border-cyan-500/40 transition-all flex items-center justify-between group h-full block"
-                >
-                  <div className="space-y-1 truncate pr-2">
-                    <span className="text-xs font-semibold text-white group-hover:text-cyan-300 transition-colors truncate block">
-                      {topic.title}
-                    </span>
-                    <div className="flex items-center gap-2 text-[10px] font-mono text-zinc-400">
-                      <span>{topic.category}</span>
-                      <span>•</span>
-                      <span className="text-emerald-400">{topic.count}</span>
+              <StaggerItem key={i}>
+                <Card3D maxTilt={6} glare={false}>
+                  <Link
+                    href={`/app/search?q=${encodeURIComponent(topic.title)}`}
+                    className="p-4 rounded-xl bg-[#0b0e14] border border-white/[0.08] hover:border-cyan-500/40 transition-all flex items-center justify-between group h-full block"
+                  >
+                    <div className="space-y-1 truncate pr-2">
+                      <span className="text-xs font-semibold text-white group-hover:text-cyan-300 transition-colors truncate block">
+                        {topic.title}
+                      </span>
+                      <div className="flex items-center gap-2 text-[10px] font-mono text-zinc-400">
+                        <span>{topic.category}</span>
+                        <span>•</span>
+                        <span className="text-emerald-400">{topic.count}</span>
+                      </div>
                     </div>
-                  </div>
-                  <ArrowRight className="w-4 h-4 text-zinc-500 group-hover:text-cyan-400 group-hover:translate-x-1 transition-all shrink-0" />
-                </Link>
-              </Card3D>
+                    <ArrowRight className="w-4 h-4 text-zinc-500 group-hover:text-cyan-400 group-hover:translate-x-1 transition-all shrink-0" />
+                  </Link>
+                </Card3D>
+              </StaggerItem>
             ))}
-          </div>
-        </div>
+          </StaggerList>
+        </AnimatedSection>
 
         {/* Recent Search Activity */}
-        <div className="space-y-4">
+        <AnimatedSection className="space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <History className="w-4 h-4 text-zinc-400" />
@@ -196,10 +207,16 @@ export default function DashboardOverviewPage() {
             </Link>
           </div>
 
-          {history.length > 0 ? (
+          {isLoading ? (
             <div className="rounded-xl bg-[#0b0e14] border border-white/[0.08] divide-y divide-white/[0.06] overflow-hidden">
+              {[1, 2, 3].map((i) => (
+                <SkeletonHistoryRow key={i} />
+              ))}
+            </div>
+          ) : history.length > 0 ? (
+            <StaggerList className="rounded-xl bg-[#0b0e14] border border-white/[0.08] divide-y divide-white/[0.06] overflow-hidden">
               {history.slice(0, 5).map((item) => (
-                <div key={item.id} className="p-4 flex items-center justify-between hover:bg-white/[0.02] transition-colors">
+                <StaggerItem key={item.id} className="p-4 flex items-center justify-between hover:bg-white/[0.02] transition-colors">
                   <div className="flex items-center gap-3">
                     <div className="p-2 rounded-lg bg-zinc-900 border border-white/[0.06] text-zinc-400">
                       <Search className="w-4 h-4" />
@@ -219,16 +236,16 @@ export default function DashboardOverviewPage() {
                     <span>Repetir</span>
                     <ArrowRight className="w-3 h-3" />
                   </Link>
-                </div>
+                </StaggerItem>
               ))}
-            </div>
+            </StaggerList>
           ) : (
             <div className="p-8 rounded-xl bg-[#0b0e14] border border-white/[0.06] text-center text-xs text-zinc-400 space-y-2">
               <Clock className="w-5 h-5 mx-auto text-zinc-400" />
               <p>Nenhuma pesquisa realizada ainda. Inicie a primeira busca para registar atividade.</p>
             </div>
           )}
-        </div>
+        </AnimatedSection>
       </main>
     </>
   );

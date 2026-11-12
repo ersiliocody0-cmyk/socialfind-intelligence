@@ -4,6 +4,9 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Header } from '@/components/Header';
 import { SearchHistoryItem } from '@/types';
+import { SkeletonHistoryRow } from '@/components/SkeletonLoader';
+import { AnimatedSection } from '@/components/AnimatedSection';
+import { StaggerList, StaggerItem } from '@/components/StaggerList';
 import { 
   History, 
   Trash2, 
@@ -12,13 +15,15 @@ import {
   Clock, 
   Layers, 
   Terminal,
-  Calendar
+  Calendar,
+  Loader2
 } from 'lucide-react';
 import { toast } from 'sonner';
 
 export default function HistoryPage() {
   const [history, setHistory] = useState<SearchHistoryItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isClearing, setIsClearing] = useState(false);
 
   const fetchHistory = () => {
     setIsLoading(true);
@@ -37,14 +42,17 @@ export default function HistoryPage() {
 
   const handleClearHistory = async () => {
     if (!confirm('Tem a certeza que deseja limpar todo o histórico de pesquisas?')) return;
+    setIsClearing(true);
     try {
       const res = await fetch('/api/history', { method: 'DELETE' });
       if (res.ok) {
         setHistory([]);
-        toast.success('Histórico apagado.');
+        toast.success('Histórico apagado com sucesso.');
       }
     } catch {
       toast.error('Erro ao limpar histórico.');
+    } finally {
+      setIsClearing(false);
     }
   };
 
@@ -56,7 +64,7 @@ export default function HistoryPage() {
       />
 
       <main className="p-6 md:p-8 space-y-6 max-w-7xl mx-auto w-full">
-        <div className="flex items-center justify-between">
+        <AnimatedSection className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <History className="w-5 h-5 text-cyan-400" />
             <h2 className="text-base font-semibold text-white tracking-tight">
@@ -67,22 +75,34 @@ export default function HistoryPage() {
           {history.length > 0 && (
             <button
               onClick={handleClearHistory}
-              className="px-3 py-1.5 rounded-lg bg-rose-950/40 hover:bg-rose-900/60 border border-rose-800/40 text-xs font-mono text-rose-300 hover:text-white flex items-center gap-1.5 transition-all"
+              disabled={isClearing}
+              className="px-3 py-1.5 rounded-lg bg-rose-950/40 hover:bg-rose-900/60 disabled:opacity-50 border border-rose-800/40 text-xs font-mono text-rose-300 hover:text-white flex items-center gap-1.5 transition-all"
             >
-              <Trash2 className="w-3.5 h-3.5" />
-              <span>Limpar Histórico</span>
+              {isClearing ? (
+                <>
+                  <Loader2 className="w-3.5 h-3.5 animate-spin text-rose-400" />
+                  <span>A limpar...</span>
+                </>
+              ) : (
+                <>
+                  <Trash2 className="w-3.5 h-3.5" />
+                  <span>Limpar Histórico</span>
+                </>
+              )}
             </button>
           )}
-        </div>
+        </AnimatedSection>
 
         {isLoading ? (
-          <div className="p-8 text-center text-xs font-mono text-zinc-500">
-            A carregar histórico...
+          <div className="rounded-2xl bg-[#0b0e14] border border-white/[0.08] divide-y divide-white/[0.06] overflow-hidden shadow-sm">
+            {[1, 2, 3, 4, 5].map((i) => (
+              <SkeletonHistoryRow key={i} />
+            ))}
           </div>
         ) : history.length > 0 ? (
-          <div className="rounded-2xl bg-[#0b0e14] border border-white/[0.08] divide-y divide-white/[0.06] overflow-hidden shadow-sm">
+          <StaggerList className="rounded-2xl bg-[#0b0e14] border border-white/[0.08] divide-y divide-white/[0.06] overflow-hidden shadow-sm">
             {history.map((item) => (
-              <div
+              <StaggerItem
                 key={item.id}
                 className="p-5 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:bg-white/[0.02] transition-colors"
               >
@@ -119,9 +139,9 @@ export default function HistoryPage() {
                     <ArrowRight className="w-3.5 h-3.5" />
                   </Link>
                 </div>
-              </div>
+              </StaggerItem>
             ))}
-          </div>
+          </StaggerList>
         ) : (
           <div className="p-12 rounded-2xl bg-[#0b0e14]/50 border border-white/[0.06] text-center space-y-3 max-w-md mx-auto my-8">
             <Clock className="w-6 h-6 mx-auto text-zinc-600" />

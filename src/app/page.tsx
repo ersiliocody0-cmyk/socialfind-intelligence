@@ -28,6 +28,8 @@ import {
 import { CyberGlobe3D } from '@/components/CyberGlobe3D';
 import { Card3D } from '@/components/Card3D';
 import { AnimatedNumber } from '@/components/AnimatedNumber';
+import { AnimatedSection } from '@/components/AnimatedSection';
+import { StaggerList, StaggerItem } from '@/components/StaggerList';
 
 export default function LandingPage() {
   const router = useRouter();
@@ -221,36 +223,36 @@ export default function LandingPage() {
         </div>
 
         {/* Key Metrics Proof Strip with Number Animations */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto pt-8 border-t border-white/[0.06]">
-          <div className="p-4 rounded-xl bg-white/[0.02] border border-white/[0.04]">
+        <StaggerList className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto pt-8 border-t border-white/[0.06]">
+          <StaggerItem className="p-4 rounded-xl bg-white/[0.02] border border-white/[0.04]">
             <div className="text-2xl font-bold font-mono text-cyan-400">
               <AnimatedNumber value={100} suffix="%" />
             </div>
             <div className="text-xs text-zinc-400 mt-1">Domínios Facebook Validados</div>
-          </div>
-          <div className="p-4 rounded-xl bg-white/[0.02] border border-white/[0.04]">
+          </StaggerItem>
+          <StaggerItem className="p-4 rounded-xl bg-white/[0.02] border border-white/[0.04]">
             <div className="text-2xl font-bold font-mono text-emerald-400">
               <AnimatedNumber value={1.2} decimals={1} prefix="< " suffix="s" />
             </div>
             <div className="text-xs text-zinc-400 mt-1">Tempo Médio de Resposta</div>
-          </div>
-          <div className="p-4 rounded-xl bg-white/[0.02] border border-white/[0.04]">
+          </StaggerItem>
+          <StaggerItem className="p-4 rounded-xl bg-white/[0.02] border border-white/[0.04]">
             <div className="text-2xl font-bold font-mono text-amber-400">
               <AnimatedNumber value={0} prefix="" suffix="€ Grátis" />
             </div>
             <div className="text-xs text-zinc-400 mt-1">Acesso 100% Livre de Custos</div>
-          </div>
-          <div className="p-4 rounded-xl bg-white/[0.02] border border-white/[0.04]">
+          </StaggerItem>
+          <StaggerItem className="p-4 rounded-xl bg-white/[0.02] border border-white/[0.04]">
             <div className="text-2xl font-bold font-mono text-cyan-400">
               <AnimatedNumber value={5} suffix=" Estratégias" />
             </div>
             <div className="text-xs text-zinc-400 mt-1">Compiladores Google Dorks</div>
-          </div>
-        </div>
+          </StaggerItem>
+        </StaggerList>
       </section>
 
       {/* The 8-Step Pipeline Section */}
-      <section id="pipeline" className="relative z-10 max-w-7xl mx-auto px-6 py-20 border-t border-white/[0.06]">
+      <AnimatedSection id="pipeline" className="relative z-10 max-w-7xl mx-auto px-6 py-20 border-t border-white/[0.06]">
         <div className="text-center max-w-2xl mx-auto mb-14">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-cyan-950/40 border border-cyan-800/40 text-cyan-400 text-[11px] font-mono uppercase tracking-wider mb-3">
             <Layers className="w-3.5 h-3.5" />
@@ -264,7 +266,7 @@ export default function LandingPage() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <StaggerList className="grid grid-cols-1 md:grid-cols-4 gap-4" staggerDelay={0.06}>
           {[
             { step: '01', title: 'Input Natural', desc: 'O utilizador introduz qualquer termo ou intenção (ex: "Samsung à venda").' },
             { step: '02', title: 'Interpretação IA', desc: 'Identifica categoria, palavras-chave, localização e intenção de compra/venda.' },
@@ -275,7 +277,7 @@ export default function LandingPage() {
             { step: '07', title: 'Apresentação', desc: 'Organiza em dashboard interativo com indicadores de confiança e relevância.' },
             { step: '08', title: 'Interação Direta', desc: 'Permite abrir o post original no Facebook, favoritar, copiar link e exportar.' },
           ].map((item) => (
-            <div
+            <StaggerItem
               key={item.step}
               className="p-5 rounded-xl bg-[#0b0e14] border border-white/[0.08] hover:border-cyan-500/40 transition-all space-y-2 group"
             >
@@ -285,13 +287,13 @@ export default function LandingPage() {
               </div>
               <h3 className="text-sm font-semibold text-white">{item.title}</h3>
               <p className="text-xs text-zinc-400 leading-relaxed">{item.desc}</p>
-            </div>
+            </StaggerItem>
           ))}
-        </div>
-      </section>
+        </StaggerList>
+      </AnimatedSection>
 
       {/* Dorks Engine Feature Highlights */}
-      <section id="dorks" className="relative z-10 max-w-7xl mx-auto px-6 py-20 border-t border-white/[0.06]">
+      <AnimatedSection id="dorks" className="relative z-10 max-w-7xl mx-auto px-6 py-20 border-t border-white/[0.06]">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div className="space-y-6">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-950/40 border border-emerald-800/40 text-emerald-400 text-[11px] font-mono uppercase tracking-wider">
@@ -363,10 +365,10 @@ export default function LandingPage() {
             </div>
           </div>
         </div>
-      </section>
+      </AnimatedSection>
 
       {/* 100% Free Access Section (No Paid Tiers) */}
-      <section id="free-access" className="relative z-10 max-w-7xl mx-auto px-6 py-20 border-t border-white/[0.06]">
+      <AnimatedSection id="free-access" className="relative z-10 max-w-7xl mx-auto px-6 py-20 border-t border-white/[0.06]">
         <div className="text-center max-w-xl mx-auto mb-12">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-950/40 border border-emerald-800/40 text-emerald-400 text-[11px] font-mono uppercase tracking-wider mb-3">
             <Gift className="w-3.5 h-3.5" />
@@ -402,32 +404,32 @@ export default function LandingPage() {
               </div>
 
               {/* Grid of included capabilities */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-mono text-zinc-300">
-                <div className="flex items-center gap-2.5 p-3 rounded-xl bg-white/[0.02] border border-white/[0.04]">
+              <StaggerList className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-mono text-zinc-300">
+                <StaggerItem className="flex items-center gap-2.5 p-3 rounded-xl bg-white/[0.02] border border-white/[0.04]">
                   <CheckCircle2 className="w-4 h-4 text-cyan-400 shrink-0" />
                   <span>Motor Avançado Google Dorks Completo</span>
-                </div>
-                <div className="flex items-center gap-2.5 p-3 rounded-xl bg-white/[0.02] border border-white/[0.04]">
+                </StaggerItem>
+                <StaggerItem className="flex items-center gap-2.5 p-3 rounded-xl bg-white/[0.02] border border-white/[0.04]">
                   <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
                   <span>Agrupamento em Páginas do Facebook</span>
-                </div>
-                <div className="flex items-center gap-2.5 p-3 rounded-xl bg-white/[0.02] border border-white/[0.04]">
+                </StaggerItem>
+                <StaggerItem className="flex items-center gap-2.5 p-3 rounded-xl bg-white/[0.02] border border-white/[0.04]">
                   <CheckCircle2 className="w-4 h-4 text-cyan-400 shrink-0" />
                   <span>Filtros Temporais Estritos (24h a 30 dias)</span>
-                </div>
-                <div className="flex items-center gap-2.5 p-3 rounded-xl bg-white/[0.02] border border-white/[0.04]">
+                </StaggerItem>
+                <StaggerItem className="flex items-center gap-2.5 p-3 rounded-xl bg-white/[0.02] border border-white/[0.04]">
                   <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
                   <span>Exportação em CSV, JSON e Markdown</span>
-                </div>
-                <div className="flex items-center gap-2.5 p-3 rounded-xl bg-white/[0.02] border border-white/[0.04]">
+                </StaggerItem>
+                <StaggerItem className="flex items-center gap-2.5 p-3 rounded-xl bg-white/[0.02] border border-white/[0.04]">
                   <CheckCircle2 className="w-4 h-4 text-cyan-400 shrink-0" />
                   <span>Links com Validação e Fallback Facebook</span>
-                </div>
-                <div className="flex items-center gap-2.5 p-3 rounded-xl bg-white/[0.02] border border-white/[0.04]">
+                </StaggerItem>
+                <StaggerItem className="flex items-center gap-2.5 p-3 rounded-xl bg-white/[0.02] border border-white/[0.04]">
                   <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
                   <span>Modo Demonstração + Conexão SERP Própria</span>
-                </div>
-              </div>
+                </StaggerItem>
+              </StaggerList>
 
               {/* Big CTA Button */}
               <Link
@@ -440,7 +442,7 @@ export default function LandingPage() {
             </div>
           </Card3D>
         </div>
-      </section>
+      </AnimatedSection>
 
       {/* Footer */}
       <footer className="relative z-10 border-t border-white/[0.06] max-w-7xl mx-auto px-6 py-12 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-zinc-500">

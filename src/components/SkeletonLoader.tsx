@@ -1,11 +1,11 @@
 'use client';
 
 import React from 'react';
-import { Sparkles, Cpu, Layers } from 'lucide-react';
+import { Cpu } from 'lucide-react';
 
 export function SkeletonMetrics() {
   return (
-    <div className="grid grid-cols-2 md:grid-cols-5 gap-3 w-full">
+    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 w-full">
       {[1, 2, 3, 4, 5].map((i) => (
         <div
           key={i}
@@ -100,6 +100,45 @@ export function SkeletonPageCard() {
   );
 }
 
+export function SkeletonHistoryRow() {
+  return (
+    <div className="p-5 flex flex-col md:flex-row md:items-center justify-between gap-4 animate-shimmer relative overflow-hidden">
+      <div className="space-y-2.5 flex-1">
+        <div className="flex items-center gap-2">
+          <div className="w-48 h-4 rounded bg-white/[0.1]" />
+          <div className="w-24 h-4 rounded-full bg-white/[0.06]" />
+          <div className="w-16 h-4 rounded-full bg-white/[0.06]" />
+        </div>
+        <div className="flex items-center gap-3">
+          <div className="w-28 h-3 rounded bg-white/[0.05]" />
+          <div className="w-36 h-3 rounded bg-white/[0.05]" />
+        </div>
+      </div>
+      <div className="w-32 h-9 rounded-lg bg-white/[0.08] shrink-0" />
+    </div>
+  );
+}
+
+export function ModuleSkeleton({ count = 4 }: { count?: number }) {
+  return (
+    <div className="space-y-6 w-full animate-in fade-in duration-300">
+      {/* Top Banner Skeleton */}
+      <div className="p-6 rounded-2xl bg-[#0b0e14] border border-white/[0.08] space-y-4 animate-shimmer relative overflow-hidden">
+        <div className="w-40 h-5 rounded bg-white/[0.1]" />
+        <div className="w-3/4 h-3 rounded bg-white/[0.06]" />
+        <div className="w-full h-10 rounded-xl bg-white/[0.05] mt-2" />
+      </div>
+
+      {/* Grid of Skeleton Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {Array.from({ length: count }).map((_, i) => (
+          <SkeletonPostCard key={i} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export function SearchProgressBanner() {
   return (
     <div className="p-4 rounded-xl bg-gradient-to-r from-cyan-950/40 via-zinc-900/60 to-emerald-950/40 border border-cyan-500/30 shadow-[0_0_20px_rgba(0,240,255,0.12)] space-y-3 animate-in fade-in duration-300">
@@ -116,7 +155,7 @@ export function SearchProgressBanner() {
 
       {/* Animated Scan Line */}
       <div className="w-full h-1.5 bg-black/50 rounded-full overflow-hidden relative">
-        <div className="h-full bg-gradient-to-r from-cyan-500 via-emerald-400 to-cyan-400 rounded-full animate-shimmer w-full" />
+        <div className="h-full bg-gradient-to-r from-cyan-500 via-emerald-400 to-cyan-400 rounded-full animate-shimmer w-full pointer-events-none" />
       </div>
 
       <div className="flex items-center justify-between text-[11px] font-mono text-zinc-400">

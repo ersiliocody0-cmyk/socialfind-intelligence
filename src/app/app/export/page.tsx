@@ -3,13 +3,16 @@
 import React, { useState, useEffect } from 'react';
 import { Header } from '@/components/Header';
 import { FavoriteItem, SearchHistoryItem } from '@/types';
-import { FileDown, FileText, Database, Code, CheckCircle, Download } from 'lucide-react';
+import { AnimatedSection } from '@/components/AnimatedSection';
+import { StaggerList, StaggerItem } from '@/components/StaggerList';
+import { FileDown, FileText, Database, Code, CheckCircle, Download, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 
 export default function ExportPage() {
   const [favorites, setFavorites] = useState<FavoriteItem[]>([]);
   const [history, setHistory] = useState<SearchHistoryItem[]>([]);
   const [selectedFormat, setSelectedFormat] = useState<'csv' | 'json' | 'markdown'>('csv');
+  const [isExporting, setIsExporting] = useState(false);
 
   useEffect(() => {
     fetch('/api/favorites').then(r => r.json()).then(d => { if (d.favorites) setFavorites(d.favorites); });
@@ -22,8 +25,9 @@ export default function ExportPage() {
       return;
     }
 
+    setIsExporting(true);
     try {
-      toast.loading('A preparar ficheiro...', { id: 'exp' });
+      toast.loading('A preparar ficheiro estruturado...', { id: 'exp' });
       const results = favorites.map(f => f.result);
       const res = await fetch('/api/export', {
         method: 'POST',
@@ -45,9 +49,11 @@ export default function ExportPage() {
       a.click();
       window.URL.revokeObjectURL(url);
       document.body.removeChild(a);
-      toast.success('Download concluído!', { id: 'exp' });
+      toast.success('Download concluído com sucesso!', { id: 'exp' });
     } catch {
-      toast.error('Erro na exportação.', { id: 'exp' });
+      toast.error('Erro na exportação do ficheiro.', { id: 'exp' });
+    } finally {
+      setIsExporting(false);
     }
   };
 
@@ -60,13 +66,13 @@ export default function ExportPage() {
 
       <main className="p-6 md:p-8 space-y-6 max-w-5xl mx-auto w-full">
         {/* Format Selector */}
-        <div className="p-6 rounded-2xl bg-[#0b0e14] border border-white/[0.08] space-y-4">
+        <AnimatedSection className="p-6 rounded-2xl bg-[#0b0e14] border border-white/[0.08] space-y-4">
           <h2 className="text-sm font-semibold text-white tracking-tight flex items-center gap-2">
             <FileDown className="w-4 h-4 text-cyan-400" />
             <span>1. Escolha o Formato do Ficheiro</span>
           </h2>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <StaggerList className="grid grid-cols-1 sm:grid-cols-3 gap-3" staggerDelay={0.06}>
             {[
               { id: 'csv', label: 'CSV (Planilha)', desc: 'Excel, Google Sheets, Pandas', icon: FileText },
               { id: 'json', label: 'JSON Estruturado', desc: 'Pipelines e APIs externas', icon: Code },
@@ -75,27 +81,28 @@ export default function ExportPage() {
               const Icon = f.icon;
               const isSelected = selectedFormat === f.id;
               return (
-                <button
-                  key={f.id}
-                  type="button"
-                  onClick={() => setSelectedFormat(f.id as any)}
-                  className={`p-4 rounded-xl border text-left transition-all ${
-                    isSelected
-                      ? 'bg-cyan-950/30 border-cyan-500/80 text-white shadow-[0_0_15px_rgba(0,240,255,0.1)]'
-                      : 'bg-black/30 border-white/[0.06] text-zinc-400 hover:text-white hover:bg-white/[0.04]'
-                  }`}
-                >
-                  <Icon className={`w-5 h-5 mb-2 ${isSelected ? 'text-cyan-400' : 'text-zinc-500'}`} />
-                  <div className="text-xs font-semibold text-white">{f.label}</div>
-                  <div className="text-[11px] text-zinc-500 mt-0.5">{f.desc}</div>
-                </button>
+                <StaggerItem key={f.id}>
+                  <button
+                    type="button"
+                    onClick={() => setSelectedFormat(f.id as any)}
+                    className={`w-full p-4 rounded-xl border text-left transition-all ${
+                      isSelected
+                        ? 'bg-cyan-950/30 border-cyan-500/80 text-white shadow-[0_0_15px_rgba(0,240,255,0.1)]'
+                        : 'bg-black/30 border-white/[0.06] text-zinc-400 hover:text-white hover:bg-white/[0.04]'
+                    }`}
+                  >
+                    <Icon className={`w-5 h-5 mb-2 ${isSelected ? 'text-cyan-400' : 'text-zinc-500'}`} />
+                    <div className="text-xs font-semibold text-white">{f.label}</div>
+                    <div className="text-[11px] text-zinc-500 mt-0.5">{f.desc}</div>
+                  </button>
+                </StaggerItem>
               );
             })}
-          </div>
-        </div>
+          </StaggerList>
+        </AnimatedSection>
 
         {/* Source Cards */}
-        <div className="p-6 rounded-2xl bg-[#0b0e14] border border-white/[0.08] space-y-4">
+        <AnimatedSection className="p-6 rounded-2xl bg-[#0b0e14] border border-white/[0.08] space-y-4">
           <h2 className="text-sm font-semibold text-white tracking-tight flex items-center gap-2">
             <Database className="w-4 h-4 text-emerald-400" />
             <span>2. Selecione a Origem dos Dados</span>
@@ -112,22 +119,31 @@ export default function ExportPage() {
             <button
               type="button"
               onClick={() => handleExportData('favorites')}
-              disabled={favorites.length === 0}
-              className="px-5 py-2.5 rounded-lg bg-cyan-500 hover:bg-cyan-400 disabled:opacity-40 disabled:cursor-not-allowed text-black text-xs font-mono font-semibold uppercase tracking-wider flex items-center justify-center gap-2 transition-all shrink-0"
+              disabled={favorites.length === 0 || isExporting}
+              className="px-5 py-2.5 rounded-lg bg-cyan-500 hover:bg-cyan-400 disabled:opacity-40 disabled:cursor-not-allowed text-black text-xs font-mono font-semibold uppercase tracking-wider flex items-center justify-center gap-2 transition-all shrink-0 min-w-[170px]"
             >
-              <Download className="w-4 h-4" />
-              <span>Descarregar ({favorites.length})</span>
+              {isExporting ? (
+                <>
+                  <Loader2 className="w-4 h-4 text-black animate-spin" />
+                  <span>A processar...</span>
+                </>
+              ) : (
+                <>
+                  <Download className="w-4 h-4" />
+                  <span>Descarregar ({favorites.length})</span>
+                </>
+              )}
             </button>
           </div>
-        </div>
+        </AnimatedSection>
 
         {/* Schema Documentation Strip */}
-        <div className="p-6 rounded-2xl bg-zinc-900/30 border border-white/[0.06] space-y-2 text-xs font-mono text-zinc-400">
+        <AnimatedSection className="p-6 rounded-2xl bg-zinc-900/30 border border-white/[0.06] space-y-2 text-xs font-mono text-zinc-400">
           <span className="text-white font-semibold block mb-1">Campos incluídos no ficheiro exportado:</span>
           <p className="leading-relaxed">
             <code>Título</code>, <code>URL</code>, <code>Grupo_ou_Fonte</code>, <code>Tipo_Conteudo</code>, <code>Data_Publicacao</code>, <code>Confianca_Data</code>, <code>Relevancia</code>, <code>Excerto</code>.
           </p>
-        </div>
+        </AnimatedSection>
       </main>
     </>
   );
