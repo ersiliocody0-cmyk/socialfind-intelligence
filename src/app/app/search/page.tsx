@@ -15,6 +15,7 @@ import { ActivityCharts } from '@/components/ActivityCharts';
 import { AnimatedNumber } from '@/components/AnimatedNumber';
 import { AnimatedSection } from '@/components/AnimatedSection';
 import { StaggerList, StaggerItem } from '@/components/StaggerList';
+import { startProcessingProgress, finishProcessingProgress } from '@/components/TopProgressBar';
 import { 
   SkeletonMetrics, 
   SkeletonPostCard, 
@@ -140,6 +141,7 @@ function SearchPageContent() {
 
     setIsLoading(true);
     setPendingConfig(false);
+    startProcessingProgress();
 
     const startTime = Date.now();
 
@@ -190,6 +192,7 @@ function SearchPageContent() {
       toast.error(err.message || 'Falha na pesquisa.');
     } finally {
       setIsLoading(false);
+      finishProcessingProgress();
     }
   };
 

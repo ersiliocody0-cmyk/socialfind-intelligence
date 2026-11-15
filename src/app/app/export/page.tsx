@@ -5,6 +5,7 @@ import { Header } from '@/components/Header';
 import { FavoriteItem, SearchHistoryItem } from '@/types';
 import { AnimatedSection } from '@/components/AnimatedSection';
 import { StaggerList, StaggerItem } from '@/components/StaggerList';
+import { startProcessingProgress, finishProcessingProgress } from '@/components/TopProgressBar';
 import { FileDown, FileText, Database, Code, CheckCircle, Download, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -26,6 +27,7 @@ export default function ExportPage() {
     }
 
     setIsExporting(true);
+    startProcessingProgress();
     try {
       toast.loading('A preparar ficheiro estruturado...', { id: 'exp' });
       const results = favorites.map(f => f.result);
@@ -54,6 +56,7 @@ export default function ExportPage() {
       toast.error('Erro na exportação do ficheiro.', { id: 'exp' });
     } finally {
       setIsExporting(false);
+      finishProcessingProgress();
     }
   };
 
