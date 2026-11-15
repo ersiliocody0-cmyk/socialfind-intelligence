@@ -271,7 +271,7 @@ function SearchPageContent() {
 
       <main className="p-3.5 sm:p-6 md:p-8 space-y-5 sm:space-y-6 max-w-7xl mx-auto w-full">
         {/* Central Search Card */}
-        <section className="p-4 sm:p-6 rounded-2xl bg-[#0b0e14]/90 border border-white/[0.08] shadow-sm space-y-4 sm:space-y-5">
+        <section className="p-4 sm:p-6 rounded-2xl bg-white dark:bg-[#0b0e14]/90 border border-slate-200 dark:border-white/[0.08] shadow-sm space-y-4 sm:space-y-5 transition-colors duration-300">
           <SearchBar
             query={query}
             onQueryChange={setQuery}
@@ -292,19 +292,19 @@ function SearchPageContent() {
 
           {/* Dorks Intelligence Bar Preview */}
           {generatedDorks.length > 0 && (
-            <div className="pt-2 flex items-center justify-between border-t border-white/[0.06] flex-wrap gap-2">
-              <div className="flex items-center gap-2 text-xs font-mono text-zinc-400">
-                <Terminal className="w-3.5 h-3.5 text-cyan-400" />
+            <div className="pt-2 flex items-center justify-between border-t border-slate-200 dark:border-white/[0.06] flex-wrap gap-2">
+              <div className="flex items-center gap-2 text-xs font-mono text-slate-600 dark:text-zinc-400">
+                <Terminal className="w-3.5 h-3.5 text-cyan-500 dark:text-cyan-400" />
                 <span>Estratégia Ativa:</span>
-                <span className="text-white font-medium">{currentIntent?.detectedIntentLabel || 'Pesquisa Dork'}</span>
-                <span className="text-zinc-600">|</span>
-                <span className="text-cyan-400">{generatedDorks.length} Dorks Compilados</span>
+                <span className="text-slate-900 dark:text-white font-medium">{currentIntent?.detectedIntentLabel || 'Pesquisa Dork'}</span>
+                <span className="text-slate-300 dark:text-zinc-600">|</span>
+                <span className="text-cyan-600 dark:text-cyan-400">{generatedDorks.length} Dorks Compilados</span>
               </div>
 
               <button
                 type="button"
                 onClick={() => setIsDorksModalOpen(true)}
-                className="px-3 py-1 rounded-lg bg-cyan-950/40 hover:bg-cyan-900/60 border border-cyan-800/40 text-xs font-mono text-cyan-300 flex items-center gap-1.5 transition-all"
+                className="px-3 py-1 rounded-lg bg-cyan-50 dark:bg-cyan-950/40 hover:bg-cyan-100 dark:hover:bg-cyan-900/60 border border-cyan-200 dark:border-cyan-800/40 text-xs font-mono text-cyan-700 dark:text-cyan-300 flex items-center gap-1.5 transition-all shadow-sm"
               >
                 <Terminal className="w-3.5 h-3.5" />
                 <span>Inspecionar Dorks Gerados</span>
@@ -341,10 +341,10 @@ function SearchPageContent() {
         {/* Results View Controls: View Mode Tabs (Publicações vs Páginas) & Filters */}
         {results.length > 0 && !pendingConfig && !isLoading && (
           <section className="space-y-3">
-            <div className="flex flex-col md:flex-row items-center justify-between gap-4 p-4 rounded-xl bg-zinc-900/40 border border-white/[0.06]">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-4 p-4 rounded-xl bg-slate-50 dark:bg-zinc-900/40 border border-slate-200 dark:border-white/[0.06] transition-colors duration-300">
               {/* Left: View Mode Switcher (Publicações vs Páginas do Facebook) */}
               <div className="flex items-center gap-2 w-full md:w-auto">
-                <div className="flex items-center p-1 bg-black/50 border border-white/[0.08] rounded-xl w-full sm:w-auto">
+                <div className="flex items-center p-1 bg-slate-200/70 dark:bg-black/50 border border-slate-300 dark:border-white/[0.08] rounded-xl w-full sm:w-auto">
                   <button
                     type="button"
                     onClick={() => {
@@ -354,8 +354,8 @@ function SearchPageContent() {
                     className={clsx(
                       'px-3.5 py-1.5 rounded-lg text-xs font-mono flex items-center justify-center gap-2 transition-all flex-1 sm:flex-initial',
                       viewMode === 'posts'
-                        ? 'bg-gradient-to-r from-cyan-500 to-emerald-400 text-black font-bold shadow-[0_0_15px_rgba(0,240,255,0.3)]'
-                        : 'text-zinc-400 hover:text-white'
+                        ? 'bg-gradient-to-r from-cyan-500 to-emerald-400 text-slate-950 font-bold shadow-[0_0_15px_rgba(0,240,255,0.3)]'
+                        : 'text-slate-600 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-white'
                     )}
                   >
                     <FileText className="w-3.5 h-3.5" />
@@ -371,8 +371,8 @@ function SearchPageContent() {
                     className={clsx(
                       'px-3.5 py-1.5 rounded-lg text-xs font-mono flex items-center justify-center gap-2 transition-all flex-1 sm:flex-initial',
                       viewMode === 'pages'
-                        ? 'bg-gradient-to-r from-cyan-500 to-emerald-400 text-black font-bold shadow-[0_0_15px_rgba(0,240,255,0.3)]'
-                        : 'text-zinc-400 hover:text-white'
+                        ? 'bg-gradient-to-r from-cyan-500 to-emerald-400 text-slate-950 font-bold shadow-[0_0_15px_rgba(0,240,255,0.3)]'
+                        : 'text-slate-600 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-white'
                     )}
                   >
                     <Globe className="w-3.5 h-3.5" />
@@ -384,7 +384,7 @@ function SearchPageContent() {
               {/* Middle: Content Type Chips (for posts) */}
               {viewMode === 'posts' && (
                 <div className="flex items-center gap-1.5 overflow-x-auto w-full md:w-auto no-scrollbar text-xs font-mono">
-                  <span className="text-zinc-500 uppercase text-[10px] mr-1 flex items-center gap-1">
+                  <span className="text-slate-500 dark:text-zinc-500 uppercase text-[10px] mr-1 flex items-center gap-1">
                     <Filter className="w-3 h-3" /> Tipo:
                   </span>
                   {[
@@ -401,8 +401,8 @@ function SearchPageContent() {
                       className={clsx(
                         'px-2.5 py-1 rounded-md transition-all whitespace-nowrap',
                         contentTypeFilter === chip.id
-                          ? 'bg-white text-black font-semibold'
-                          : 'bg-white/[0.04] text-zinc-400 hover:text-white hover:bg-white/[0.08]'
+                          ? 'bg-slate-900 dark:bg-white text-white dark:text-black font-semibold shadow-sm'
+                          : 'bg-slate-200/60 dark:bg-white/[0.04] text-slate-600 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-300/50 dark:hover:bg-white/[0.08]'
                       )}
                     >
                       {chip.label}
@@ -414,12 +414,12 @@ function SearchPageContent() {
               {/* Right: Sorting & Export */}
               <div className="flex items-center gap-2 w-full md:w-auto justify-end">
                 {viewMode === 'posts' && (
-                  <div className="flex items-center gap-1.5 text-xs font-mono text-zinc-400">
-                    <ArrowUpDown className="w-3.5 h-3.5 text-zinc-500" />
+                  <div className="flex items-center gap-1.5 text-xs font-mono text-slate-600 dark:text-zinc-400">
+                    <ArrowUpDown className="w-3.5 h-3.5 text-slate-400 dark:text-zinc-500" />
                     <select
                       value={sortBy}
                       onChange={(e) => setSortBy(e.target.value as any)}
-                      className="bg-black/50 border border-white/[0.1] rounded-lg px-2.5 py-1 text-white text-xs outline-none focus:border-cyan-500/80"
+                      className="bg-white dark:bg-black/50 border border-slate-200 dark:border-white/[0.1] rounded-lg px-2.5 py-1 text-slate-900 dark:text-white text-xs outline-none focus:border-cyan-500/80 shadow-sm"
                     >
                       <option value="relevance">Mais Relevantes</option>
                       <option value="date">Mais Recentes</option>
@@ -433,7 +433,7 @@ function SearchPageContent() {
                   <button
                     type="button"
                     onClick={() => handleExport('csv')}
-                    className="px-2.5 py-1 rounded-lg bg-white/[0.06] hover:bg-white/[0.12] border border-white/[0.08] text-xs font-mono text-zinc-300 hover:text-white flex items-center gap-1 transition-all"
+                    className="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-white/[0.06] hover:bg-slate-200 dark:hover:bg-white/[0.12] border border-slate-200 dark:border-white/[0.08] text-xs font-mono text-slate-700 dark:text-zinc-300 hover:text-slate-900 dark:hover:text-white flex items-center gap-1 transition-all shadow-sm"
                     title="Exportar como CSV"
                   >
                     <Download className="w-3 h-3" />
@@ -442,7 +442,7 @@ function SearchPageContent() {
                   <button
                     type="button"
                     onClick={() => handleExport('json')}
-                    className="px-2.5 py-1 rounded-lg bg-white/[0.06] hover:bg-white/[0.12] border border-white/[0.08] text-xs font-mono text-zinc-300 hover:text-white flex items-center gap-1 transition-all"
+                    className="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-white/[0.06] hover:bg-slate-200 dark:hover:bg-white/[0.12] border border-slate-200 dark:border-white/[0.08] text-xs font-mono text-slate-700 dark:text-zinc-300 hover:text-slate-900 dark:hover:text-white flex items-center gap-1 transition-all shadow-sm"
                     title="Exportar como JSON"
                   >
                     <span>JSON</span>
@@ -450,7 +450,7 @@ function SearchPageContent() {
                   <button
                     type="button"
                     onClick={() => handleExport('markdown')}
-                    className="px-2.5 py-1 rounded-lg bg-white/[0.06] hover:bg-white/[0.12] border border-white/[0.08] text-xs font-mono text-zinc-300 hover:text-white flex items-center gap-1 transition-all"
+                    className="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-white/[0.06] hover:bg-slate-200 dark:hover:bg-white/[0.12] border border-slate-200 dark:border-white/[0.08] text-xs font-mono text-slate-700 dark:text-zinc-300 hover:text-slate-900 dark:hover:text-white flex items-center gap-1 transition-all shadow-sm"
                     title="Exportar Relatório Markdown"
                   >
                     <span>MD</span>
@@ -473,11 +473,11 @@ function SearchPageContent() {
             /* ================= FACEBOOK PAGES VIEW ================= */
             paginatedPages.length > 0 ? (
               <div className="space-y-4">
-                <div className="flex items-center justify-between text-xs font-mono text-zinc-400 px-1">
+                <div className="flex items-center justify-between text-xs font-mono text-slate-600 dark:text-zinc-400 px-1">
                   <span>
                     A mostrar <AnimatedNumber value={paginatedPages.length} /> páginas encontradas com atividade relevante
                   </span>
-                  <span className="text-cyan-400">Página {currentPage} de {totalPageGroups}</span>
+                  <span className="text-cyan-600 dark:text-cyan-400">Página {currentPage} de {totalPageGroups}</span>
                 </div>
 
                 <StaggerList className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" staggerDelay={0.05}>
@@ -492,7 +492,7 @@ function SearchPageContent() {
                 </StaggerList>
               </div>
             ) : results.length > 0 ? (
-              <div className="p-8 rounded-xl bg-[#0b0e14] border border-white/[0.06] text-center text-xs text-zinc-400 font-mono">
+              <div className="p-8 rounded-xl bg-white dark:bg-[#0b0e14] border border-slate-200 dark:border-white/[0.06] text-center text-xs text-slate-600 dark:text-zinc-400 font-mono shadow-sm">
                 Nenhuma página agrupada para este filtro. Mude para a aba &quot;Publicações&quot;.
               </div>
             ) : null
@@ -500,11 +500,11 @@ function SearchPageContent() {
             /* ================= POSTS VIEW ================= */
             paginatedPosts.length > 0 ? (
               <div className="space-y-4">
-                <div className="flex items-center justify-between text-xs font-mono text-zinc-400 px-1">
+                <div className="flex items-center justify-between text-xs font-mono text-slate-600 dark:text-zinc-400 px-1">
                   <span>
                     A mostrar <AnimatedNumber value={paginatedPosts.length} /> de <AnimatedNumber value={filteredResults.length} /> publicações
                   </span>
-                  <span className="text-cyan-400">Página {currentPage} de {totalPostPages}</span>
+                  <span className="text-cyan-600 dark:text-cyan-400">Página {currentPage} de {totalPostPages}</span>
                 </div>
 
                 <StaggerList className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" staggerDelay={0.05}>
@@ -521,13 +521,13 @@ function SearchPageContent() {
                 </StaggerList>
               </div>
             ) : results.length === 0 && !isLoading && !pendingConfig ? (
-              <div className="p-12 rounded-2xl bg-[#0b0e14]/50 border border-white/[0.06] text-center space-y-4 max-w-xl mx-auto my-6">
-                <div className="w-12 h-12 rounded-2xl bg-white/[0.04] border border-white/[0.08] flex items-center justify-center mx-auto text-cyan-400">
+              <div className="p-12 rounded-2xl bg-white dark:bg-[#0b0e14]/50 border border-slate-200 dark:border-white/[0.06] text-center space-y-4 max-w-xl mx-auto my-6 shadow-sm">
+                <div className="w-12 h-12 rounded-2xl bg-slate-100 dark:bg-white/[0.04] border border-slate-200 dark:border-white/[0.08] flex items-center justify-center mx-auto text-cyan-600 dark:text-cyan-400">
                   <SearchIcon className="w-6 h-6" />
                 </div>
                 <div className="space-y-1">
-                  <h3 className="text-base font-semibold text-white">Nenhuma pesquisa realizada</h3>
-                  <p className="text-xs text-zinc-400">
+                  <h3 className="text-base font-semibold text-slate-900 dark:text-white">Nenhuma pesquisa realizada</h3>
+                  <p className="text-xs text-slate-600 dark:text-zinc-400">
                     Escreva o que procura no campo superior ou clique num dos exemplos rápidos para descobrir publicações no Facebook via Google Dorks.
                   </p>
                 </div>
@@ -537,9 +537,9 @@ function SearchPageContent() {
 
           {/* Pagination Controls */}
           {activeTotalPages > 1 && !isLoading && (
-            <div className="flex items-center justify-between p-4 rounded-xl bg-zinc-900/40 border border-white/[0.06] text-xs font-mono flex-wrap gap-2">
-              <span className="text-zinc-400">
-                Página <span className="text-white font-bold">{currentPage}</span> de <span className="text-white font-bold">{activeTotalPages}</span>
+            <div className="flex items-center justify-between p-4 rounded-xl bg-slate-50 dark:bg-zinc-900/40 border border-slate-200 dark:border-white/[0.06] text-xs font-mono flex-wrap gap-2 transition-colors duration-300 shadow-sm">
+              <span className="text-slate-600 dark:text-zinc-400">
+                Página <span className="text-slate-900 dark:text-white font-bold">{currentPage}</span> de <span className="text-slate-900 dark:text-white font-bold">{activeTotalPages}</span>
               </span>
 
               <div className="flex items-center gap-1.5">
@@ -547,7 +547,7 @@ function SearchPageContent() {
                   type="button"
                   onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
                   disabled={currentPage === 1}
-                  className="px-3 py-1.5 rounded-lg bg-white/[0.05] hover:bg-white/[0.1] border border-white/[0.08] disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-1 text-zinc-300 hover:text-white transition-all"
+                  className="px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-white/[0.05] hover:bg-slate-200 dark:hover:bg-white/[0.1] border border-slate-200 dark:border-white/[0.08] disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-1 text-slate-700 dark:text-zinc-300 hover:text-slate-900 dark:hover:text-white transition-all shadow-sm"
                 >
                   <ChevronLeft className="w-3.5 h-3.5" />
                   <span>Anterior</span>
@@ -567,8 +567,8 @@ function SearchPageContent() {
                         className={clsx(
                           'w-8 h-8 rounded-lg flex items-center justify-center transition-all',
                           currentPage === num
-                            ? 'bg-cyan-500 text-black font-bold shadow-[0_0_10px_rgba(0,240,255,0.3)]'
-                            : 'bg-white/[0.04] text-zinc-400 hover:text-white hover:bg-white/[0.08]'
+                            ? 'bg-cyan-500 text-slate-950 font-bold shadow-[0_0_10px_rgba(0,240,255,0.3)]'
+                            : 'bg-slate-100 dark:bg-white/[0.04] text-slate-600 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-white/[0.08]'
                         )}
                       >
                         {num}
@@ -577,7 +577,7 @@ function SearchPageContent() {
                   }
                   if (num === currentPage - 2 || num === currentPage + 2) {
                     return (
-                      <span key={num} className="text-zinc-600 px-1">
+                      <span key={num} className="text-slate-400 dark:text-zinc-600 px-1">
                         ...
                       </span>
                     );
@@ -589,7 +589,7 @@ function SearchPageContent() {
                   type="button"
                   onClick={() => setCurrentPage((p) => Math.min(p + 1, activeTotalPages))}
                   disabled={currentPage === activeTotalPages}
-                  className="px-3 py-1.5 rounded-lg bg-white/[0.05] hover:bg-white/[0.1] border border-white/[0.08] disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-1 text-zinc-300 hover:text-white transition-all"
+                  className="px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-white/[0.05] hover:bg-slate-200 dark:hover:bg-white/[0.1] border border-slate-200 dark:border-white/[0.08] disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-1 text-slate-700 dark:text-zinc-300 hover:text-slate-900 dark:hover:text-white transition-all shadow-sm"
                 >
                   <span>Seguinte</span>
                   <ChevronRight className="w-3.5 h-3.5" />
@@ -601,7 +601,7 @@ function SearchPageContent() {
 
         {/* Analytics Charts Drawer */}
         {results.length > 0 && !pendingConfig && !isLoading && (
-          <AnimatedSection className="pt-4 border-t border-white/[0.06]">
+          <AnimatedSection className="pt-4 border-t border-slate-200 dark:border-white/[0.06]">
             <ActivityCharts results={results} />
           </AnimatedSection>
         )}

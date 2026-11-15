@@ -24,12 +24,12 @@ export function TemporalFilter({ value, onChange, disabled }: TemporalFilterProp
   return (
     <div className="space-y-2">
       <div className="flex items-center justify-between">
-        <label className="text-xs font-mono uppercase tracking-wider text-zinc-400 flex items-center gap-1.5">
-          <Calendar className="w-3.5 h-3.5 text-cyan-400" />
+        <label className="text-xs font-mono uppercase tracking-wider text-slate-600 dark:text-zinc-400 flex items-center gap-1.5">
+          <Calendar className="w-3.5 h-3.5 text-cyan-600 dark:text-cyan-400" />
           Filtro Temporal Inteligente
         </label>
-        <span className="text-[11px] text-zinc-400 font-mono">
-          Operador Google: <code className="text-cyan-400 font-semibold">{value === 'all' ? 'Sem restrição temporal' : `after:${value}`}</code>
+        <span className="text-[11px] text-slate-500 dark:text-zinc-400 font-mono">
+          Operador Google: <code className="text-cyan-600 dark:text-cyan-400 font-semibold">{value === 'all' ? 'Sem restrição temporal' : `after:${value}`}</code>
         </span>
       </div>
 
@@ -45,19 +45,19 @@ export function TemporalFilter({ value, onChange, disabled }: TemporalFilterProp
               className={clsx(
                 'relative flex flex-col items-center justify-center p-2.5 rounded-lg border text-left transition-all group',
                 isSelected
-                  ? 'bg-cyan-950/30 border-cyan-500/60 text-white shadow-[0_0_15px_rgba(0,240,255,0.1)]'
-                  : 'bg-zinc-900/40 border-white/[0.06] text-zinc-400 hover:text-white hover:bg-white/[0.04] hover:border-white/[0.12]',
+                  ? 'bg-cyan-50 dark:bg-cyan-950/30 border-cyan-500/60 text-slate-900 dark:text-white shadow-sm'
+                  : 'bg-white dark:bg-zinc-900/40 border-slate-200 dark:border-white/[0.06] text-slate-600 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/[0.04] hover:border-slate-300 dark:hover:border-white/[0.12]',
                 disabled && 'opacity-50 cursor-not-allowed'
               )}
             >
-              <span className={clsx('text-xs font-medium font-mono', isSelected ? 'text-cyan-400' : 'text-zinc-300')}>
+              <span className={clsx('text-xs font-medium font-mono', isSelected ? 'text-cyan-700 dark:text-cyan-400 font-bold' : 'text-slate-700 dark:text-zinc-300')}>
                 {opt.label}
               </span>
               {opt.badge && (
                 <span
                   className={clsx(
                     'mt-1 text-[9px] uppercase font-mono px-1.5 py-0.2 rounded',
-                    isSelected ? 'bg-cyan-900/60 text-cyan-300' : 'bg-zinc-800 text-zinc-500 group-hover:text-zinc-400'
+                    isSelected ? 'bg-cyan-100 dark:bg-cyan-900/60 text-cyan-800 dark:text-cyan-300' : 'bg-slate-100 dark:bg-zinc-800 text-slate-500 dark:text-zinc-500 group-hover:text-slate-700 dark:group-hover:text-zinc-400'
                   )}
                 >
                   {opt.badge}

@@ -82,8 +82,8 @@ export default function FavoritesPage() {
       <main className="p-6 md:p-8 space-y-6 max-w-7xl mx-auto w-full">
         <AnimatedSection className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Bookmark className="w-5 h-5 text-cyan-400" />
-            <h2 className="text-base font-semibold text-white tracking-tight">
+            <Bookmark className="w-5 h-5 text-cyan-500 dark:text-cyan-400" />
+            <h2 className="text-base font-semibold text-slate-900 dark:text-white tracking-tight">
               Favoritos ({favorites.length})
             </h2>
           </div>
@@ -92,11 +92,11 @@ export default function FavoritesPage() {
             <button
               onClick={handleExportFavorites}
               disabled={isExporting}
-              className="px-3.5 py-1.5 rounded-lg bg-white/[0.06] hover:bg-white/[0.12] disabled:opacity-50 border border-white/[0.08] text-xs font-mono text-zinc-300 hover:text-white flex items-center gap-1.5 transition-all"
+              className="px-3.5 py-1.5 rounded-lg bg-slate-100 dark:bg-white/[0.06] hover:bg-slate-200 dark:hover:bg-white/[0.12] disabled:opacity-50 border border-slate-200 dark:border-white/[0.08] text-xs font-mono text-slate-700 dark:text-zinc-300 hover:text-slate-900 dark:hover:text-white flex items-center gap-1.5 transition-all shadow-sm"
             >
               {isExporting ? (
                 <>
-                  <Loader2 className="w-3.5 h-3.5 animate-spin text-cyan-400" />
+                  <Loader2 className="w-3.5 h-3.5 animate-spin text-cyan-500 dark:text-cyan-400" />
                   <span>A exportar...</span>
                 </>
               ) : (
@@ -129,15 +129,15 @@ export default function FavoritesPage() {
             ))}
           </StaggerList>
         ) : (
-          <div className="p-12 rounded-2xl bg-[#0b0e14]/50 border border-white/[0.06] text-center space-y-3 max-w-md mx-auto my-8">
-            <Bookmark className="w-6 h-6 mx-auto text-zinc-600" />
-            <h3 className="text-sm font-semibold text-white">Nenhum favorito guardado</h3>
-            <p className="text-xs text-zinc-500">
+          <div className="p-12 rounded-2xl bg-white dark:bg-[#0b0e14]/50 border border-slate-200 dark:border-white/[0.06] text-center space-y-3 max-w-md mx-auto my-8 shadow-sm transition-colors duration-300">
+            <Bookmark className="w-6 h-6 mx-auto text-slate-400 dark:text-zinc-600" />
+            <h3 className="text-sm font-semibold text-slate-900 dark:text-white">Nenhum favorito guardado</h3>
+            <p className="text-xs text-slate-500 dark:text-zinc-500">
               Ao pesquisar, clique no ícone de marcador para arquivar publicações relevantes aqui.
             </p>
             <Link
               href="/app/search"
-              className="inline-block px-4 py-2 rounded-lg bg-cyan-500 text-black text-xs font-mono font-semibold uppercase tracking-wider mt-2"
+              className="inline-block px-4 py-2 rounded-lg bg-cyan-500 text-slate-950 font-bold text-xs font-mono uppercase tracking-wider mt-2 shadow-sm"
             >
               Ir para Pesquisa
             </Link>

@@ -9,14 +9,14 @@ export function SkeletonMetrics() {
       {[1, 2, 3, 4, 5].map((i) => (
         <div
           key={i}
-          className="p-3.5 rounded-xl bg-[#0c0f15]/90 border border-white/[0.08] relative overflow-hidden animate-shimmer"
+          className="p-3.5 rounded-xl bg-white dark:bg-[#0c0f15]/90 border border-slate-200 dark:border-white/[0.08] shadow-sm relative overflow-hidden animate-shimmer"
         >
           <div className="flex items-center justify-between mb-2">
-            <div className="w-16 h-3 bg-white/[0.08] rounded" />
-            <div className="w-6 h-6 rounded-md bg-white/[0.06]" />
+            <div className="w-16 h-3 bg-slate-200 dark:bg-white/[0.08] rounded" />
+            <div className="w-6 h-6 rounded-md bg-slate-200 dark:bg-white/[0.06]" />
           </div>
-          <div className="w-12 h-7 bg-white/[0.12] rounded my-1" />
-          <div className="w-24 h-2.5 bg-white/[0.05] rounded mt-2" />
+          <div className="w-12 h-7 bg-slate-300 dark:bg-white/[0.12] rounded my-1" />
+          <div className="w-24 h-2.5 bg-slate-200/80 dark:bg-white/[0.05] rounded mt-2" />
         </div>
       ))}
     </div>
@@ -25,44 +25,44 @@ export function SkeletonMetrics() {
 
 export function SkeletonPostCard() {
   return (
-    <div className="rounded-xl bg-[#0b0e14]/90 border border-white/[0.08] p-4 flex flex-col justify-between space-y-4 animate-shimmer relative overflow-hidden shadow-sm">
+    <div className="rounded-xl bg-white dark:bg-[#0b0e14]/90 border border-slate-200 dark:border-white/[0.08] p-4 flex flex-col justify-between space-y-4 animate-shimmer relative overflow-hidden shadow-sm">
       <div className="space-y-3">
         {/* Header badges */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <div className="w-20 h-5 rounded-full bg-white/[0.08]" />
-            <div className="w-16 h-5 rounded-full bg-white/[0.06]" />
+            <div className="w-20 h-5 rounded-full bg-slate-200 dark:bg-white/[0.08]" />
+            <div className="w-16 h-5 rounded-full bg-slate-200 dark:bg-white/[0.06]" />
           </div>
-          <div className="w-14 h-5 rounded bg-white/[0.06]" />
+          <div className="w-14 h-5 rounded bg-slate-200 dark:bg-white/[0.06]" />
         </div>
 
         {/* Author / Group */}
         <div className="flex items-center gap-2">
-          <div className="w-4 h-4 rounded-full bg-white/[0.06]" />
-          <div className="w-32 h-3.5 rounded bg-white/[0.06]" />
+          <div className="w-4 h-4 rounded-full bg-slate-200 dark:bg-white/[0.06]" />
+          <div className="w-32 h-3.5 rounded bg-slate-200 dark:bg-white/[0.06]" />
         </div>
 
         {/* Title */}
         <div className="space-y-1.5 pt-1">
-          <div className="w-full h-4 rounded bg-white/[0.1]" />
-          <div className="w-3/4 h-4 rounded bg-white/[0.08]" />
+          <div className="w-full h-4 rounded bg-slate-300 dark:bg-white/[0.1]" />
+          <div className="w-3/4 h-4 rounded bg-slate-200 dark:bg-white/[0.08]" />
         </div>
 
         {/* Snippet lines */}
         <div className="space-y-1.5 pt-1">
-          <div className="w-full h-3 rounded bg-white/[0.05]" />
-          <div className="w-5/6 h-3 rounded bg-white/[0.05]" />
-          <div className="w-4/6 h-3 rounded bg-white/[0.05]" />
+          <div className="w-full h-3 rounded bg-slate-100 dark:bg-white/[0.05]" />
+          <div className="w-5/6 h-3 rounded bg-slate-100 dark:bg-white/[0.05]" />
+          <div className="w-4/6 h-3 rounded bg-slate-100 dark:bg-white/[0.05]" />
         </div>
       </div>
 
       {/* Footer */}
-      <div className="space-y-3 pt-2 border-t border-white/[0.06]">
+      <div className="space-y-3 pt-2 border-t border-slate-200 dark:border-white/[0.06]">
         <div className="flex items-center justify-between">
-          <div className="w-24 h-3 rounded bg-white/[0.05]" />
-          <div className="w-16 h-3 rounded bg-white/[0.05]" />
+          <div className="w-24 h-3 rounded bg-slate-200 dark:bg-white/[0.05]" />
+          <div className="w-16 h-3 rounded bg-slate-200 dark:bg-white/[0.05]" />
         </div>
-        <div className="w-full h-9 rounded-lg bg-white/[0.08]" />
+        <div className="w-full h-9 rounded-lg bg-slate-200 dark:bg-white/[0.08]" />
       </div>
     </div>
   );
@@ -70,51 +70,51 @@ export function SkeletonPostCard() {
 
 export function SkeletonPageCard() {
   return (
-    <div className="rounded-2xl bg-[#0c0f16]/90 border border-white/[0.08] p-5 flex flex-col justify-between space-y-4 animate-shimmer relative overflow-hidden">
+    <div className="rounded-2xl bg-white dark:bg-[#0c0f16]/90 border border-slate-200 dark:border-white/[0.08] p-5 flex flex-col justify-between space-y-4 animate-shimmer relative overflow-hidden shadow-sm">
       <div className="space-y-3">
         {/* Avatar and Info */}
         <div className="flex items-center gap-3">
-          <div className="w-12 h-12 rounded-xl bg-white/[0.1] shrink-0" />
+          <div className="w-12 h-12 rounded-xl bg-slate-200 dark:bg-white/[0.1] shrink-0" />
           <div className="space-y-1.5 flex-1">
-            <div className="w-3/4 h-4 rounded bg-white/[0.12]" />
-            <div className="w-1/2 h-3 rounded bg-white/[0.06]" />
+            <div className="w-3/4 h-4 rounded bg-slate-300 dark:bg-white/[0.12]" />
+            <div className="w-1/2 h-3 rounded bg-slate-200 dark:bg-white/[0.06]" />
           </div>
         </div>
 
         {/* Category & Stats */}
         <div className="flex items-center gap-2 pt-2">
-          <div className="w-20 h-5 rounded-full bg-white/[0.06]" />
-          <div className="w-24 h-5 rounded-full bg-white/[0.06]" />
+          <div className="w-20 h-5 rounded-full bg-slate-200 dark:bg-white/[0.06]" />
+          <div className="w-24 h-5 rounded-full bg-slate-200 dark:bg-white/[0.06]" />
         </div>
 
         {/* Post snippet */}
-        <div className="p-3 rounded-lg bg-white/[0.03] space-y-1.5">
-          <div className="w-full h-3 rounded bg-white/[0.06]" />
-          <div className="w-4/5 h-3 rounded bg-white/[0.06]" />
+        <div className="p-3 rounded-lg bg-slate-50 dark:bg-white/[0.03] space-y-1.5">
+          <div className="w-full h-3 rounded bg-slate-200 dark:bg-white/[0.06]" />
+          <div className="w-4/5 h-3 rounded bg-slate-200 dark:bg-white/[0.06]" />
         </div>
       </div>
 
       {/* Action button */}
-      <div className="w-full h-10 rounded-xl bg-white/[0.08]" />
+      <div className="w-full h-10 rounded-xl bg-slate-200 dark:bg-white/[0.08]" />
     </div>
   );
 }
 
 export function SkeletonHistoryRow() {
   return (
-    <div className="p-5 flex flex-col md:flex-row md:items-center justify-between gap-4 animate-shimmer relative overflow-hidden">
+    <div className="p-5 flex flex-col md:flex-row md:items-center justify-between gap-4 animate-shimmer relative overflow-hidden bg-white dark:bg-[#0b0e14]">
       <div className="space-y-2.5 flex-1">
         <div className="flex items-center gap-2">
-          <div className="w-48 h-4 rounded bg-white/[0.1]" />
-          <div className="w-24 h-4 rounded-full bg-white/[0.06]" />
-          <div className="w-16 h-4 rounded-full bg-white/[0.06]" />
+          <div className="w-48 h-4 rounded bg-slate-300 dark:bg-white/[0.1]" />
+          <div className="w-24 h-4 rounded-full bg-slate-200 dark:bg-white/[0.06]" />
+          <div className="w-16 h-4 rounded-full bg-slate-200 dark:bg-white/[0.06]" />
         </div>
         <div className="flex items-center gap-3">
-          <div className="w-28 h-3 rounded bg-white/[0.05]" />
-          <div className="w-36 h-3 rounded bg-white/[0.05]" />
+          <div className="w-28 h-3 rounded bg-slate-200/80 dark:bg-white/[0.05]" />
+          <div className="w-36 h-3 rounded bg-slate-200/80 dark:bg-white/[0.05]" />
         </div>
       </div>
-      <div className="w-32 h-9 rounded-lg bg-white/[0.08] shrink-0" />
+      <div className="w-32 h-9 rounded-lg bg-slate-200 dark:bg-white/[0.08] shrink-0" />
     </div>
   );
 }
@@ -123,10 +123,10 @@ export function ModuleSkeleton({ count = 4 }: { count?: number }) {
   return (
     <div className="space-y-6 w-full animate-in fade-in duration-300">
       {/* Top Banner Skeleton */}
-      <div className="p-6 rounded-2xl bg-[#0b0e14] border border-white/[0.08] space-y-4 animate-shimmer relative overflow-hidden">
-        <div className="w-40 h-5 rounded bg-white/[0.1]" />
-        <div className="w-3/4 h-3 rounded bg-white/[0.06]" />
-        <div className="w-full h-10 rounded-xl bg-white/[0.05] mt-2" />
+      <div className="p-6 rounded-2xl bg-white dark:bg-[#0b0e14] border border-slate-200 dark:border-white/[0.08] space-y-4 animate-shimmer relative overflow-hidden shadow-sm">
+        <div className="w-40 h-5 rounded bg-slate-300 dark:bg-white/[0.1]" />
+        <div className="w-3/4 h-3 rounded bg-slate-200 dark:bg-white/[0.06]" />
+        <div className="w-full h-10 rounded-xl bg-slate-100 dark:bg-white/[0.05] mt-2" />
       </div>
 
       {/* Grid of Skeleton Cards */}
@@ -141,26 +141,26 @@ export function ModuleSkeleton({ count = 4 }: { count?: number }) {
 
 export function SearchProgressBanner() {
   return (
-    <div className="p-4 rounded-xl bg-gradient-to-r from-cyan-950/40 via-zinc-900/60 to-emerald-950/40 border border-cyan-500/30 shadow-[0_0_20px_rgba(0,240,255,0.12)] space-y-3 animate-in fade-in duration-300">
+    <div className="p-4 rounded-xl bg-gradient-to-r from-cyan-50 via-slate-50 to-emerald-50 dark:from-cyan-950/40 dark:via-zinc-900/60 dark:to-emerald-950/40 border border-cyan-300 dark:border-cyan-500/30 shadow-[0_0_20px_rgba(0,240,255,0.08)] space-y-3 animate-in fade-in duration-300">
       <div className="flex items-center justify-between flex-wrap gap-2">
-        <div className="flex items-center gap-2 text-xs font-mono text-cyan-300">
-          <Cpu className="w-4 h-4 text-cyan-400 animate-spin" style={{ animationDuration: '3s' }} />
+        <div className="flex items-center gap-2 text-xs font-mono text-cyan-700 dark:text-cyan-300">
+          <Cpu className="w-4 h-4 text-cyan-600 dark:text-cyan-400 animate-spin" style={{ animationDuration: '3s' }} />
           <span className="font-semibold uppercase tracking-wider">A Processar Consulta em Tempo Real</span>
         </div>
-        <span className="text-[11px] font-mono text-emerald-400 flex items-center gap-1.5">
-          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+        <span className="text-[11px] font-mono text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5">
+          <span className="w-2 h-2 rounded-full bg-emerald-500 dark:bg-emerald-400 animate-ping" />
           A compilar operadores e páginas Facebook
         </span>
       </div>
 
       {/* Animated Scan Line */}
-      <div className="w-full h-1.5 bg-black/50 rounded-full overflow-hidden relative">
+      <div className="w-full h-1.5 bg-slate-200 dark:bg-black/50 rounded-full overflow-hidden relative">
         <div className="h-full bg-gradient-to-r from-cyan-500 via-emerald-400 to-cyan-400 rounded-full animate-shimmer w-full pointer-events-none" />
       </div>
 
-      <div className="flex items-center justify-between text-[11px] font-mono text-zinc-400">
+      <div className="flex items-center justify-between text-[11px] font-mono text-slate-500 dark:text-zinc-400">
         <span>1. Compilação Dorks</span>
-        <span className="text-cyan-400">2. Estruturação em Páginas</span>
+        <span className="text-cyan-600 dark:text-cyan-400 font-semibold">2. Estruturação em Páginas</span>
         <span>3. Validação de Links</span>
       </div>
     </div>

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { 
@@ -13,29 +13,41 @@ import {
   ArrowRight, 
   CheckCircle2, 
   Layers, 
-  ChevronRight,
-  ExternalLink,
-  Flame,
-  Globe2,
-  Lock,
-  Zap,
-  Globe,
-  Gift,
-  Loader2,
-  Menu,
-  X
+  ChevronRight, 
+  ExternalLink, 
+  Flame, 
+  Globe2, 
+  Lock, 
+  Zap, 
+  Globe, 
+  Gift, 
+  Loader2, 
+  Menu, 
+  X 
 } from 'lucide-react';
 import { CyberGlobe3D } from '@/components/CyberGlobe3D';
 import { Card3D } from '@/components/Card3D';
 import { AnimatedNumber } from '@/components/AnimatedNumber';
 import { AnimatedSection } from '@/components/AnimatedSection';
 import { StaggerList, StaggerItem } from '@/components/StaggerList';
+import { ThemeToggle } from '@/context/ThemeContext';
+import { useLenis } from '@/context/SmoothScrollProvider';
 
 export default function LandingPage() {
   const router = useRouter();
   const [heroQuery, setHeroQuery] = useState('');
   const [isSearching, setIsSearching] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { stop, start } = useLenis();
+
+  // Pause Lenis smooth scroll while mobile menu drawer is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      stop();
+    } else {
+      start();
+    }
+  }, [mobileMenuOpen, stop, start]);
 
   const handleHeroSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -53,37 +65,40 @@ export default function LandingPage() {
   ];
 
   return (
-    <div className="relative min-h-screen bg-[#060709] text-white overflow-hidden swiss-grid">
+    <div className="relative min-h-screen bg-slate-50 dark:bg-[#060709] text-slate-900 dark:text-white overflow-hidden swiss-grid transition-colors duration-300">
       {/* Top Ambient Glow */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] radial-glow pointer-events-none" />
 
       {/* Navigation Header */}
-      <header className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between border-b border-white/[0.06]">
+      <header className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between border-b border-slate-200 dark:border-white/[0.06] bg-white/70 dark:bg-[#060709]/70 backdrop-blur-md">
         <div className="flex items-center gap-3">
           <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-500 to-emerald-400 p-[1px] shadow-glow-cyan">
-            <div className="w-full h-full bg-[#07090d] rounded-[11px] flex items-center justify-center">
-              <Sparkles className="w-4 h-4 text-cyan-400" />
+            <div className="w-full h-full bg-white dark:bg-[#07090d] rounded-[11px] flex items-center justify-center">
+              <Sparkles className="w-4 h-4 text-cyan-500 dark:text-cyan-400" />
             </div>
           </div>
           <div>
-            <span className="font-semibold text-base tracking-tight text-white flex items-center gap-2">
-              SocialFind <span className="text-[10px] font-mono text-cyan-400 px-1.5 py-0.2 rounded bg-cyan-950/60 border border-cyan-800/40">v1.0</span>
+            <span className="font-semibold text-base tracking-tight text-slate-900 dark:text-white flex items-center gap-2">
+              SocialFind <span className="text-[10px] font-mono text-cyan-600 dark:text-cyan-400 px-1.5 py-0.2 rounded bg-cyan-50 dark:bg-cyan-950/60 border border-cyan-200 dark:border-cyan-800/40">v1.0</span>
             </span>
-            <p className="text-[10px] uppercase tracking-widest text-zinc-400 font-mono">Intelligence</p>
+            <p className="text-[10px] uppercase tracking-widest text-slate-500 dark:text-zinc-400 font-mono">Intelligence</p>
           </div>
         </div>
 
-        <nav className="hidden md:flex items-center gap-8 text-xs font-mono uppercase tracking-wider text-zinc-400">
-          <a href="#features" className="hover:text-cyan-400 transition-colors">Funcionalidades</a>
-          <a href="#pipeline" className="hover:text-cyan-400 transition-colors">Pipeline 8 Etapas</a>
-          <a href="#dorks" className="hover:text-cyan-400 transition-colors">Google Dorks</a>
-          <a href="#free-access" className="hover:text-cyan-400 transition-colors">Plano Gratuito</a>
+        <nav className="hidden md:flex items-center gap-8 text-xs font-mono uppercase tracking-wider text-slate-600 dark:text-zinc-400">
+          <a href="#features" className="hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors">Funcionalidades</a>
+          <a href="#pipeline" className="hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors">Pipeline 8 Etapas</a>
+          <a href="#dorks" className="hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors">Google Dorks</a>
+          <a href="#free-access" className="hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors">Plano Gratuito</a>
         </nav>
 
         <div className="flex items-center gap-2 sm:gap-3">
+          {/* Theme Switcher Toggle */}
+          <ThemeToggle />
+
           <Link
             href="/app/search"
-            className="hidden sm:inline-flex px-3.5 sm:px-4 py-2 rounded-lg bg-white/[0.06] hover:bg-white/[0.12] border border-white/[0.1] text-xs font-medium text-white transition-all font-mono"
+            className="hidden sm:inline-flex px-3.5 sm:px-4 py-2 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-white/[0.06] dark:hover:bg-white/[0.12] border border-slate-200 dark:border-white/[0.1] text-xs font-medium text-slate-700 dark:text-white transition-all font-mono"
           >
             Demo Sandbox
           </Link>
@@ -99,7 +114,7 @@ export default function LandingPage() {
           <button
             type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-2 rounded-lg text-zinc-400 hover:text-white hover:bg-white/[0.08] transition-colors ml-1"
+            className="md:hidden p-2 rounded-lg text-slate-600 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/[0.08] transition-colors ml-1"
             title="Menu"
           >
             {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -109,33 +124,36 @@ export default function LandingPage() {
 
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden fixed inset-0 top-16 z-30 bg-[#060709]/95 backdrop-blur-xl border-b border-white/[0.1] p-6 space-y-4 animate-in slide-in-from-top duration-200">
-          <nav className="flex flex-col space-y-3 text-sm font-mono uppercase tracking-wider text-zinc-300">
+        <div 
+          data-lenis-prevent
+          className="md:hidden fixed inset-0 top-16 z-30 bg-white/95 dark:bg-[#060709]/95 backdrop-blur-xl border-b border-slate-200 dark:border-white/[0.1] p-6 space-y-4 animate-in slide-in-from-top duration-200"
+        >
+          <nav className="flex flex-col space-y-3 text-sm font-mono uppercase tracking-wider text-slate-800 dark:text-zinc-300">
             <a
               href="#features"
               onClick={() => setMobileMenuOpen(false)}
-              className="p-3 rounded-xl bg-white/[0.03] hover:bg-white/[0.08] transition-colors"
+              className="p-3 rounded-xl bg-slate-100 dark:bg-white/[0.03] hover:bg-slate-200 dark:hover:bg-white/[0.08] transition-colors"
             >
               Funcionalidades
             </a>
             <a
               href="#pipeline"
               onClick={() => setMobileMenuOpen(false)}
-              className="p-3 rounded-xl bg-white/[0.03] hover:bg-white/[0.08] transition-colors"
+              className="p-3 rounded-xl bg-slate-100 dark:bg-white/[0.03] hover:bg-slate-200 dark:hover:bg-white/[0.08] transition-colors"
             >
               Pipeline 8 Etapas
             </a>
             <a
               href="#dorks"
               onClick={() => setMobileMenuOpen(false)}
-              className="p-3 rounded-xl bg-white/[0.03] hover:bg-white/[0.08] transition-colors"
+              className="p-3 rounded-xl bg-slate-100 dark:bg-white/[0.03] hover:bg-slate-200 dark:hover:bg-white/[0.08] transition-colors"
             >
               Google Dorks
             </a>
             <a
               href="#free-access"
               onClick={() => setMobileMenuOpen(false)}
-              className="p-3 rounded-xl bg-cyan-950/30 border border-cyan-800/40 text-cyan-300 transition-colors"
+              className="p-3 rounded-xl bg-cyan-50 dark:bg-cyan-950/30 border border-cyan-200 dark:border-cyan-800/40 text-cyan-700 dark:text-cyan-300 transition-colors"
             >
               Plano 100% Gratuito
             </a>
@@ -144,44 +162,44 @@ export default function LandingPage() {
       )}
 
       {/* Hero Section */}
-      <section className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 pt-8 sm:pt-12 pb-16 sm:pb-20 text-center">
+      <section id="features" className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 pt-8 sm:pt-12 pb-16 sm:pb-20 text-center">
         {/* 3D Cyber Globe Interactive Centerpiece */}
         <div className="w-full max-w-[240px] sm:max-w-[340px] h-[200px] sm:h-[280px] mx-auto mb-2 relative">
           <CyberGlobe3D size={280} className="w-full h-full" />
-          <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-[#060709] via-transparent to-transparent" />
+          <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-slate-50 dark:from-[#060709] via-transparent to-transparent" />
         </div>
 
         {/* Micro Pill */}
-        <div className="inline-flex items-center gap-2 px-3 sm:px-3.5 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.08] text-[11px] sm:text-xs text-zinc-300 font-mono mb-5 sm:mb-6 shadow-sm">
-          <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
+        <div className="inline-flex items-center gap-2 px-3 sm:px-3.5 py-1.5 rounded-full bg-white dark:bg-white/[0.04] border border-slate-200 dark:border-white/[0.08] text-[11px] sm:text-xs text-slate-700 dark:text-zinc-300 font-mono mb-5 sm:mb-6 shadow-sm">
+          <span className="w-2 h-2 rounded-full bg-cyan-500 dark:bg-cyan-400 animate-pulse" />
           <span>Motor OSINT Aberto</span>
-          <span className="text-zinc-600">|</span>
-          <span className="text-emerald-400">100% Gratuito Vitalício</span>
+          <span className="text-slate-300 dark:text-zinc-600">|</span>
+          <span className="text-emerald-600 dark:text-emerald-400">100% Gratuito Vitalício</span>
         </div>
 
         {/* Main Headline */}
-        <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight text-white leading-[1.1] mb-5 sm:mb-6">
+        <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight text-slate-900 dark:text-white leading-[1.1] mb-5 sm:mb-6">
           Descubra Publicações no Facebook{' '}
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-teal-300 to-emerald-400">
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-500 via-teal-400 to-emerald-500 dark:from-cyan-400 dark:via-teal-300 dark:to-emerald-400">
             através de Google Dorks
           </span>
         </h1>
 
-        <p className="max-w-2xl mx-auto text-sm sm:text-base md:text-lg text-zinc-400 leading-relaxed mb-6 sm:mb-8 font-normal px-2">
+        <p className="max-w-2xl mx-auto text-sm sm:text-base md:text-lg text-slate-600 dark:text-zinc-400 leading-relaxed mb-6 sm:mb-8 font-normal px-2">
           Transforme linguagem natural em consultas avançadas de pesquisa. O SocialFind localiza publicações públicas, páginas e grupos no Facebook com agrupamento em páginas, filtros temporais rigorosos e auditoria técnica.
         </p>
 
         {/* Interactive Search Simulator in Hero */}
         <div className="max-w-3xl mx-auto mb-8 px-1">
           <form onSubmit={handleHeroSearch} className="relative">
-            <div className="relative flex items-center p-1.5 sm:p-2 rounded-2xl bg-[#0c0f16]/90 border border-white/[0.14] shadow-2xl focus-within:border-cyan-500/80 focus-within:shadow-[0_0_30px_rgba(0,240,255,0.2)] transition-all">
-              <Search className="w-5 h-5 sm:w-6 sm:h-6 text-zinc-500 ml-2.5 sm:ml-3 mr-1.5 sm:mr-2 shrink-0" />
+            <div className="relative flex items-center p-1.5 sm:p-2 rounded-2xl bg-white dark:bg-[#0c0f16]/90 border border-slate-200 dark:border-white/[0.14] shadow-xl focus-within:border-cyan-500/80 focus-within:shadow-[0_0_30px_rgba(0,240,255,0.2)] transition-all">
+              <Search className="w-5 h-5 sm:w-6 sm:h-6 text-slate-400 dark:text-zinc-500 ml-2.5 sm:ml-3 mr-1.5 sm:mr-2 shrink-0" />
               <input
                 type="text"
                 value={heroQuery}
                 onChange={(e) => setHeroQuery(e.target.value)}
                 placeholder="Que publicação estás à procura? (Ex: Samsung à venda)"
-                className="w-full bg-transparent text-white placeholder-zinc-500 text-xs sm:text-sm md:text-base outline-none py-2 font-normal"
+                className="w-full bg-transparent text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-zinc-500 text-xs sm:text-sm md:text-base outline-none py-2 font-normal"
               />
               <button
                 type="submit"
@@ -205,7 +223,7 @@ export default function LandingPage() {
 
           {/* Quick tags */}
           <div className="flex items-center justify-center gap-1.5 sm:gap-2 flex-wrap mt-3.5 text-xs">
-            <span className="text-[11px] font-mono text-zinc-400 uppercase tracking-wider">Testar:</span>
+            <span className="text-[11px] font-mono text-slate-500 dark:text-zinc-400 uppercase tracking-wider">Testar:</span>
             {sampleTags.map((tag) => (
               <button
                 key={tag}
@@ -214,7 +232,7 @@ export default function LandingPage() {
                   setIsSearching(true);
                   router.push(`/app/search?q=${encodeURIComponent(tag)}`);
                 }}
-                className="px-2.5 py-1 rounded-full bg-white/[0.04] hover:bg-white/[0.08] active:bg-cyan-500/20 border border-white/[0.06] hover:border-cyan-500/40 text-zinc-300 text-xs transition-all tap-transparent"
+                className="px-2.5 py-1 rounded-full bg-slate-100 hover:bg-slate-200 dark:bg-white/[0.04] dark:hover:bg-white/[0.08] active:bg-cyan-500/20 border border-slate-200 dark:border-white/[0.06] hover:border-cyan-500/40 text-slate-700 dark:text-zinc-300 text-xs transition-all tap-transparent"
               >
                 {tag}
               </button>
@@ -223,45 +241,45 @@ export default function LandingPage() {
         </div>
 
         {/* Key Metrics Proof Strip with Number Animations */}
-        <StaggerList className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto pt-8 border-t border-white/[0.06]">
-          <StaggerItem className="p-4 rounded-xl bg-white/[0.02] border border-white/[0.04]">
-            <div className="text-2xl font-bold font-mono text-cyan-400">
+        <StaggerList className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto pt-8 border-t border-slate-200 dark:border-white/[0.06]">
+          <StaggerItem className="p-4 rounded-xl bg-white border border-slate-200 shadow-sm dark:bg-white/[0.02] dark:border-white/[0.04] dark:shadow-none">
+            <div className="text-2xl font-bold font-mono text-cyan-600 dark:text-cyan-400">
               <AnimatedNumber value={100} suffix="%" />
             </div>
-            <div className="text-xs text-zinc-400 mt-1">Domínios Facebook Validados</div>
+            <div className="text-xs text-slate-600 dark:text-zinc-400 mt-1">Domínios Facebook Validados</div>
           </StaggerItem>
-          <StaggerItem className="p-4 rounded-xl bg-white/[0.02] border border-white/[0.04]">
-            <div className="text-2xl font-bold font-mono text-emerald-400">
+          <StaggerItem className="p-4 rounded-xl bg-white border border-slate-200 shadow-sm dark:bg-white/[0.02] dark:border-white/[0.04] dark:shadow-none">
+            <div className="text-2xl font-bold font-mono text-emerald-600 dark:text-emerald-400">
               <AnimatedNumber value={1.2} decimals={1} prefix="< " suffix="s" />
             </div>
-            <div className="text-xs text-zinc-400 mt-1">Tempo Médio de Resposta</div>
+            <div className="text-xs text-slate-600 dark:text-zinc-400 mt-1">Tempo Médio de Resposta</div>
           </StaggerItem>
-          <StaggerItem className="p-4 rounded-xl bg-white/[0.02] border border-white/[0.04]">
-            <div className="text-2xl font-bold font-mono text-amber-400">
+          <StaggerItem className="p-4 rounded-xl bg-white border border-slate-200 shadow-sm dark:bg-white/[0.02] dark:border-white/[0.04] dark:shadow-none">
+            <div className="text-2xl font-bold font-mono text-amber-600 dark:text-amber-400">
               <AnimatedNumber value={0} prefix="" suffix="€ Grátis" />
             </div>
-            <div className="text-xs text-zinc-400 mt-1">Acesso 100% Livre de Custos</div>
+            <div className="text-xs text-slate-600 dark:text-zinc-400 mt-1">Acesso 100% Livre de Custos</div>
           </StaggerItem>
-          <StaggerItem className="p-4 rounded-xl bg-white/[0.02] border border-white/[0.04]">
-            <div className="text-2xl font-bold font-mono text-cyan-400">
+          <StaggerItem className="p-4 rounded-xl bg-white border border-slate-200 shadow-sm dark:bg-white/[0.02] dark:border-white/[0.04] dark:shadow-none">
+            <div className="text-2xl font-bold font-mono text-cyan-600 dark:text-cyan-400">
               <AnimatedNumber value={5} suffix=" Estratégias" />
             </div>
-            <div className="text-xs text-zinc-400 mt-1">Compiladores Google Dorks</div>
+            <div className="text-xs text-slate-600 dark:text-zinc-400 mt-1">Compiladores Google Dorks</div>
           </StaggerItem>
         </StaggerList>
       </section>
 
       {/* The 8-Step Pipeline Section */}
-      <AnimatedSection id="pipeline" className="relative z-10 max-w-7xl mx-auto px-6 py-20 border-t border-white/[0.06]">
+      <AnimatedSection id="pipeline" className="relative z-10 max-w-7xl mx-auto px-6 py-20 border-t border-slate-200 dark:border-white/[0.06]">
         <div className="text-center max-w-2xl mx-auto mb-14">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-cyan-950/40 border border-cyan-800/40 text-cyan-400 text-[11px] font-mono uppercase tracking-wider mb-3">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-cyan-50 dark:bg-cyan-950/40 border border-cyan-200 dark:border-cyan-800/40 text-cyan-700 dark:text-cyan-400 text-[11px] font-mono uppercase tracking-wider mb-3">
             <Layers className="w-3.5 h-3.5" />
             Arquitetura de Processamento
           </div>
-          <h2 className="text-3xl font-bold tracking-tight text-white mb-3">
+          <h2 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white mb-3">
             O Fluxo das 8 Etapas de Descoberta
           </h2>
-          <p className="text-sm text-zinc-400 leading-relaxed">
+          <p className="text-sm text-slate-600 dark:text-zinc-400 leading-relaxed">
             Como o SocialFind Intelligence transforma uma simples palavra-chave num relatório verificado de publicações públicas.
           </p>
         </div>
@@ -279,49 +297,49 @@ export default function LandingPage() {
           ].map((item) => (
             <StaggerItem
               key={item.step}
-              className="p-5 rounded-xl bg-[#0b0e14] border border-white/[0.08] hover:border-cyan-500/40 transition-all space-y-2 group"
+              className="p-5 rounded-xl bg-white dark:bg-[#0b0e14] border border-slate-200 dark:border-white/[0.08] hover:border-cyan-500/50 shadow-sm dark:shadow-none transition-all space-y-2 group"
             >
               <div className="flex items-center justify-between">
-                <span className="text-xs font-mono text-cyan-400 font-bold">{item.step}</span>
-                <span className="w-1.5 h-1.5 rounded-full bg-zinc-700 group-hover:bg-cyan-400 transition-colors" />
+                <span className="text-xs font-mono text-cyan-600 dark:text-cyan-400 font-bold">{item.step}</span>
+                <span className="w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-zinc-700 group-hover:bg-cyan-500 transition-colors" />
               </div>
-              <h3 className="text-sm font-semibold text-white">{item.title}</h3>
-              <p className="text-xs text-zinc-400 leading-relaxed">{item.desc}</p>
+              <h3 className="text-sm font-semibold text-slate-900 dark:text-white">{item.title}</h3>
+              <p className="text-xs text-slate-600 dark:text-zinc-400 leading-relaxed">{item.desc}</p>
             </StaggerItem>
           ))}
         </StaggerList>
       </AnimatedSection>
 
       {/* Dorks Engine Feature Highlights */}
-      <AnimatedSection id="dorks" className="relative z-10 max-w-7xl mx-auto px-6 py-20 border-t border-white/[0.06]">
+      <AnimatedSection id="dorks" className="relative z-10 max-w-7xl mx-auto px-6 py-20 border-t border-slate-200 dark:border-white/[0.06]">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div className="space-y-6">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-950/40 border border-emerald-800/40 text-emerald-400 text-[11px] font-mono uppercase tracking-wider">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/40 text-emerald-700 dark:text-emerald-400 text-[11px] font-mono uppercase tracking-wider">
               <Terminal className="w-3.5 h-3.5" />
               Google Dorks Automatizados
             </div>
-            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-white leading-tight">
+            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-slate-900 dark:text-white leading-tight">
               Pesquisa avançada para quem não sabe o que é um Dork.
             </h2>
-            <p className="text-sm text-zinc-400 leading-relaxed">
-              O utilizador comum não precisa de memorizar sintaxes como <code className="text-cyan-400 font-mono">site:facebook.com (inurl:posts) after:2026-11-01</code>. O nosso motor constrói e testa dezenas de combinações em microssegundos.
+            <p className="text-sm text-slate-600 dark:text-zinc-400 leading-relaxed">
+              O utilizador comum não precisa de memorizar sintaxes como <code className="text-cyan-600 dark:text-cyan-400 font-mono font-semibold">site:facebook.com (inurl:posts) after:2026-11-01</code>. O nosso motor constrói e testa dezenas de combinações em microssegundos.
             </p>
 
-            <ul className="space-y-3 text-xs text-zinc-300 font-mono">
+            <ul className="space-y-3 text-xs text-slate-700 dark:text-zinc-300 font-mono">
               <li className="flex items-center gap-2.5">
-                <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                <CheckCircle2 className="w-4 h-4 text-emerald-500 dark:text-emerald-400 shrink-0" />
                 <span>Segmentação precisa por Grupos Públicos vs Páginas vs Vídeos</span>
               </li>
               <li className="flex items-center gap-2.5">
-                <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                <CheckCircle2 className="w-4 h-4 text-emerald-500 dark:text-emerald-400 shrink-0" />
                 <span>Filtro temporal nativo do Google (24h, 3d, 7d, 14d, 30d)</span>
               </li>
               <li className="flex items-center gap-2.5">
-                <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                <CheckCircle2 className="w-4 h-4 text-emerald-500 dark:text-emerald-400 shrink-0" />
                 <span>Auditoria transparente entre data de indexação vs publicação</span>
               </li>
               <li className="flex items-center gap-2.5">
-                <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                <CheckCircle2 className="w-4 h-4 text-emerald-500 dark:text-emerald-400 shrink-0" />
                 <span>Botão direto: VER PUBLICAÇÃO ORIGINAL no Facebook</span>
               </li>
             </ul>
@@ -336,13 +354,13 @@ export default function LandingPage() {
           </div>
 
           {/* Code Showcase Preview */}
-          <div className="rounded-2xl bg-[#090b10] border border-white/[0.12] p-5 shadow-2xl font-mono text-xs space-y-4">
+          <div className="rounded-2xl bg-slate-900 dark:bg-[#090b10] border border-slate-800 dark:border-white/[0.12] p-5 shadow-2xl font-mono text-xs space-y-4">
             <div className="flex items-center justify-between border-b border-white/[0.08] pb-3">
               <div className="flex items-center gap-2">
                 <span className="w-2.5 h-2.5 rounded-full bg-rose-500/80" />
                 <span className="w-2.5 h-2.5 rounded-full bg-amber-500/80" />
                 <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/80" />
-                <span className="text-[11px] text-zinc-500 ml-2">dork_engine.ts</span>
+                <span className="text-[11px] text-zinc-400 ml-2">dork_engine.ts</span>
               </div>
               <span className="text-[10px] text-cyan-400">Compilação Dinâmica</span>
             </div>
@@ -350,17 +368,17 @@ export default function LandingPage() {
             <div className="space-y-3 text-[11px] leading-relaxed text-zinc-300">
               <p className="text-zinc-500">// 1. Exemplo de Dork gerado para posts diretos:</p>
               <div className="p-3 rounded-lg bg-black/60 border border-white/[0.06] text-cyan-300 break-all select-all">
-                site:facebook.com (inurl:posts OR inurl:permalink) "Samsung" "à venda" after:2026-11-01
+                site:facebook.com (inurl:posts OR inurl:permalink) &quot;Samsung&quot; &quot;à venda&quot; after:2026-11-01
               </div>
 
               <p className="text-zinc-500">// 2. Dork para grupos comunitários:</p>
               <div className="p-3 rounded-lg bg-black/60 border border-white/[0.06] text-emerald-300 break-all select-all">
-                site:facebook.com/groups "Samsung" (vendo OR venda OR preco) "Luanda" after:2026-11-01
+                site:facebook.com/groups &quot;Samsung&quot; (vendo OR venda OR preco) &quot;Luanda&quot; after:2026-11-01
               </div>
 
               <p className="text-zinc-500">// 3. Dork para transmissões em vídeo e reels:</p>
               <div className="p-3 rounded-lg bg-black/60 border border-white/[0.06] text-amber-300 break-all select-all">
-                site:facebook.com (inurl:watch OR inurl:reel) "Samsung" after:2026-11-01
+                site:facebook.com (inurl:watch OR inurl:reel) &quot;Samsung&quot; after:2026-11-01
               </div>
             </div>
           </div>
@@ -368,65 +386,65 @@ export default function LandingPage() {
       </AnimatedSection>
 
       {/* 100% Free Access Section (No Paid Tiers) */}
-      <AnimatedSection id="free-access" className="relative z-10 max-w-7xl mx-auto px-6 py-20 border-t border-white/[0.06]">
+      <AnimatedSection id="free-access" className="relative z-10 max-w-7xl mx-auto px-6 py-20 border-t border-slate-200 dark:border-white/[0.06]">
         <div className="text-center max-w-xl mx-auto mb-12">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-950/40 border border-emerald-800/40 text-emerald-400 text-[11px] font-mono uppercase tracking-wider mb-3">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/40 text-emerald-700 dark:text-emerald-400 text-[11px] font-mono uppercase tracking-wider mb-3">
             <Gift className="w-3.5 h-3.5" />
             Acesso 100% Gratuito
           </div>
-          <h2 className="text-3xl font-bold tracking-tight text-white mb-2">
+          <h2 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white mb-2">
             Plano Gratuito Vitalício
           </h2>
-          <p className="text-xs text-zinc-400">
+          <p className="text-xs text-slate-600 dark:text-zinc-400">
             Acesso completo a todas as capacidades do SocialFind sem custos, sem cartões de crédito e sem planos pagos.
           </p>
         </div>
 
         <div className="max-w-3xl mx-auto">
           <Card3D maxTilt={5}>
-            <div className="p-8 rounded-3xl bg-[#0c0f16]/95 border border-emerald-500/40 shadow-[0_0_40px_rgba(16,185,129,0.15)] relative overflow-hidden space-y-8">
+            <div className="p-8 rounded-3xl bg-white dark:bg-[#0c0f16]/95 border border-emerald-500/40 shadow-xl dark:shadow-[0_0_40px_rgba(16,185,129,0.15)] relative overflow-hidden space-y-8">
               {/* Top pill */}
-              <div className="flex items-center justify-between flex-wrap gap-4 border-b border-white/[0.08] pb-6">
+              <div className="flex items-center justify-between flex-wrap gap-4 border-b border-slate-200 dark:border-white/[0.08] pb-6">
                 <div>
-                  <span className="text-xs font-mono uppercase tracking-wider text-emerald-400 font-bold">
+                  <span className="text-xs font-mono uppercase tracking-wider text-emerald-600 dark:text-emerald-400 font-bold">
                     Acesso Aberto & Irrestrito
                   </span>
                   <div className="flex items-baseline gap-2 mt-1">
-                    <span className="text-4xl font-extrabold text-white font-mono">0€</span>
-                    <span className="text-xs text-zinc-400 font-mono">/ totalmente grátis para sempre</span>
+                    <span className="text-4xl font-extrabold text-slate-900 dark:text-white font-mono">0€</span>
+                    <span className="text-xs text-slate-500 dark:text-zinc-400 font-mono">/ totalmente grátis para sempre</span>
                   </div>
                 </div>
 
-                <div className="px-3.5 py-1.5 rounded-full bg-emerald-950/80 border border-emerald-500/40 text-emerald-300 text-xs font-mono flex items-center gap-1.5">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                <div className="px-3.5 py-1.5 rounded-full bg-emerald-50 dark:bg-emerald-950/80 border border-emerald-200 dark:border-emerald-500/40 text-emerald-700 dark:text-emerald-300 text-xs font-mono flex items-center gap-1.5">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-500 dark:text-emerald-400" />
                   <span>Nenhum Plano Pago</span>
                 </div>
               </div>
 
               {/* Grid of included capabilities */}
-              <StaggerList className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-mono text-zinc-300">
-                <StaggerItem className="flex items-center gap-2.5 p-3 rounded-xl bg-white/[0.02] border border-white/[0.04]">
-                  <CheckCircle2 className="w-4 h-4 text-cyan-400 shrink-0" />
+              <StaggerList className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-mono text-slate-700 dark:text-zinc-300">
+                <StaggerItem className="flex items-center gap-2.5 p-3 rounded-xl bg-slate-50 border border-slate-200 dark:bg-white/[0.02] dark:border-white/[0.04]">
+                  <CheckCircle2 className="w-4 h-4 text-cyan-600 dark:text-cyan-400 shrink-0" />
                   <span>Motor Avançado Google Dorks Completo</span>
                 </StaggerItem>
-                <StaggerItem className="flex items-center gap-2.5 p-3 rounded-xl bg-white/[0.02] border border-white/[0.04]">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                <StaggerItem className="flex items-center gap-2.5 p-3 rounded-xl bg-slate-50 border border-slate-200 dark:bg-white/[0.02] dark:border-white/[0.04]">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
                   <span>Agrupamento em Páginas do Facebook</span>
                 </StaggerItem>
-                <StaggerItem className="flex items-center gap-2.5 p-3 rounded-xl bg-white/[0.02] border border-white/[0.04]">
-                  <CheckCircle2 className="w-4 h-4 text-cyan-400 shrink-0" />
+                <StaggerItem className="flex items-center gap-2.5 p-3 rounded-xl bg-slate-50 border border-slate-200 dark:bg-white/[0.02] dark:border-white/[0.04]">
+                  <CheckCircle2 className="w-4 h-4 text-cyan-600 dark:text-cyan-400 shrink-0" />
                   <span>Filtros Temporais Estritos (24h a 30 dias)</span>
                 </StaggerItem>
-                <StaggerItem className="flex items-center gap-2.5 p-3 rounded-xl bg-white/[0.02] border border-white/[0.04]">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                <StaggerItem className="flex items-center gap-2.5 p-3 rounded-xl bg-slate-50 border border-slate-200 dark:bg-white/[0.02] dark:border-white/[0.04]">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
                   <span>Exportação em CSV, JSON e Markdown</span>
                 </StaggerItem>
-                <StaggerItem className="flex items-center gap-2.5 p-3 rounded-xl bg-white/[0.02] border border-white/[0.04]">
-                  <CheckCircle2 className="w-4 h-4 text-cyan-400 shrink-0" />
+                <StaggerItem className="flex items-center gap-2.5 p-3 rounded-xl bg-slate-50 border border-slate-200 dark:bg-white/[0.02] dark:border-white/[0.04]">
+                  <CheckCircle2 className="w-4 h-4 text-cyan-600 dark:text-cyan-400 shrink-0" />
                   <span>Links com Validação e Fallback Facebook</span>
                 </StaggerItem>
-                <StaggerItem className="flex items-center gap-2.5 p-3 rounded-xl bg-white/[0.02] border border-white/[0.04]">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                <StaggerItem className="flex items-center gap-2.5 p-3 rounded-xl bg-slate-50 border border-slate-200 dark:bg-white/[0.02] dark:border-white/[0.04]">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
                   <span>Modo Demonstração + Conexão SERP Própria</span>
                 </StaggerItem>
               </StaggerList>
@@ -445,15 +463,15 @@ export default function LandingPage() {
       </AnimatedSection>
 
       {/* Footer */}
-      <footer className="relative z-10 border-t border-white/[0.06] max-w-7xl mx-auto px-6 py-12 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-zinc-500">
+      <footer className="relative z-10 border-t border-slate-200 dark:border-white/[0.06] max-w-7xl mx-auto px-6 py-12 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-slate-500 dark:text-zinc-500">
         <div className="flex items-center gap-2">
           <span>SocialFind Intelligence © 2026.</span>
           <span>Todos os direitos reservados.</span>
         </div>
         <div className="flex items-center gap-6">
-          <Link href="/app" className="hover:text-cyan-400 transition-colors">Plataforma</Link>
-          <Link href="/app/dorks" className="hover:text-cyan-400 transition-colors">Dorks Studio</Link>
-          <Link href="/app/settings" className="hover:text-cyan-400 transition-colors">Configurações</Link>
+          <Link href="/app" className="hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors">Plataforma</Link>
+          <Link href="/app/dorks" className="hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors">Dorks Studio</Link>
+          <Link href="/app/settings" className="hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors">Configurações</Link>
         </div>
       </footer>
     </div>

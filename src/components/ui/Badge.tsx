@@ -11,12 +11,12 @@ interface BadgeProps {
 
 export function Badge({ children, variant = 'default', size = 'sm', className }: BadgeProps) {
   const variantStyles = {
-    default: 'bg-zinc-800/80 text-zinc-300 border-zinc-700/60',
-    cyan: 'bg-cyan-950/40 text-cyan-400 border-cyan-800/50 shadow-[0_0_10px_rgba(0,240,255,0.15)]',
-    emerald: 'bg-emerald-950/40 text-emerald-400 border-emerald-800/50 shadow-[0_0_10px_rgba(16,185,129,0.15)]',
-    amber: 'bg-amber-950/40 text-amber-400 border-amber-800/50 shadow-[0_0_10px_rgba(245,158,11,0.15)]',
-    rose: 'bg-rose-950/40 text-rose-400 border-rose-800/50',
-    muted: 'bg-zinc-900/60 text-zinc-400 border-white/[0.06]',
+    default: 'bg-slate-100 text-slate-800 border-slate-300 dark:bg-zinc-800/80 dark:text-zinc-300 dark:border-zinc-700/60',
+    cyan: 'bg-cyan-50 text-cyan-700 border-cyan-300 dark:bg-cyan-950/40 dark:text-cyan-400 dark:border-cyan-800/50 shadow-sm',
+    emerald: 'bg-emerald-50 text-emerald-700 border-emerald-300 dark:bg-emerald-950/40 dark:text-emerald-400 dark:border-emerald-800/50 shadow-sm',
+    amber: 'bg-amber-50 text-amber-800 border-amber-300 dark:bg-amber-950/40 dark:text-amber-400 dark:border-amber-800/50 shadow-sm',
+    rose: 'bg-rose-50 text-rose-700 border-rose-300 dark:bg-rose-950/40 dark:text-rose-400 dark:border-rose-800/50',
+    muted: 'bg-slate-100 text-slate-600 border-slate-200 dark:bg-zinc-900/60 dark:text-zinc-400 dark:border-white/[0.06]',
   };
 
   const sizeStyles = {
@@ -27,7 +27,7 @@ export function Badge({ children, variant = 'default', size = 'sm', className }:
   return (
     <span
       className={clsx(
-        'inline-flex items-center gap-1.5 border tracking-wide uppercase font-mono',
+        'inline-flex items-center gap-1.5 border tracking-wide uppercase font-mono transition-colors duration-200',
         variantStyles[variant],
         sizeStyles[size],
         className
@@ -42,7 +42,7 @@ export function ConfidenceBadge({ level }: { level: DateConfidenceLevel }) {
   if (level === 'high') {
     return (
       <Badge variant="emerald">
-        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 dark:bg-emerald-400 animate-pulse" />
         Alta Confiança
       </Badge>
     );
@@ -50,7 +50,7 @@ export function ConfidenceBadge({ level }: { level: DateConfidenceLevel }) {
   if (level === 'medium') {
     return (
       <Badge variant="amber">
-        <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
+        <span className="w-1.5 h-1.5 rounded-full bg-amber-500 dark:bg-amber-400" />
         Média Confiança
       </Badge>
     );
@@ -58,14 +58,14 @@ export function ConfidenceBadge({ level }: { level: DateConfidenceLevel }) {
   if (level === 'low') {
     return (
       <Badge variant="rose">
-        <span className="w-1.5 h-1.5 rounded-full bg-rose-400" />
+        <span className="w-1.5 h-1.5 rounded-full bg-rose-500 dark:bg-rose-400" />
         Baixa Confiança
       </Badge>
     );
   }
   return (
     <Badge variant="muted">
-      <span className="w-1.5 h-1.5 rounded-full bg-zinc-500" />
+      <span className="w-1.5 h-1.5 rounded-full bg-slate-400 dark:bg-zinc-500" />
       Data Não Confirmada
     </Badge>
   );

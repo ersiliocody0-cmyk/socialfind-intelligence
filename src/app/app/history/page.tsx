@@ -66,8 +66,8 @@ export default function HistoryPage() {
       <main className="p-6 md:p-8 space-y-6 max-w-7xl mx-auto w-full">
         <AnimatedSection className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <History className="w-5 h-5 text-cyan-400" />
-            <h2 className="text-base font-semibold text-white tracking-tight">
+            <History className="w-5 h-5 text-cyan-500 dark:text-cyan-400" />
+            <h2 className="text-base font-semibold text-slate-900 dark:text-white tracking-tight">
               Consultas Registadas ({history.length})
             </h2>
           </div>
@@ -76,11 +76,11 @@ export default function HistoryPage() {
             <button
               onClick={handleClearHistory}
               disabled={isClearing}
-              className="px-3 py-1.5 rounded-lg bg-rose-950/40 hover:bg-rose-900/60 disabled:opacity-50 border border-rose-800/40 text-xs font-mono text-rose-300 hover:text-white flex items-center gap-1.5 transition-all"
+              className="px-3 py-1.5 rounded-lg bg-rose-50 dark:bg-rose-950/40 hover:bg-rose-100 dark:hover:bg-rose-900/60 disabled:opacity-50 border border-rose-200 dark:border-rose-800/40 text-xs font-mono text-rose-700 dark:text-rose-300 hover:text-rose-900 dark:hover:text-white flex items-center gap-1.5 transition-all shadow-sm"
             >
               {isClearing ? (
                 <>
-                  <Loader2 className="w-3.5 h-3.5 animate-spin text-rose-400" />
+                  <Loader2 className="w-3.5 h-3.5 animate-spin text-rose-500 dark:text-rose-400" />
                   <span>A limpar...</span>
                 </>
               ) : (
@@ -94,37 +94,37 @@ export default function HistoryPage() {
         </AnimatedSection>
 
         {isLoading ? (
-          <div className="rounded-2xl bg-[#0b0e14] border border-white/[0.08] divide-y divide-white/[0.06] overflow-hidden shadow-sm">
+          <div className="rounded-2xl bg-white dark:bg-[#0b0e14] border border-slate-200 dark:border-white/[0.08] divide-y divide-slate-100 dark:divide-white/[0.06] overflow-hidden shadow-sm transition-colors duration-300">
             {[1, 2, 3, 4, 5].map((i) => (
               <SkeletonHistoryRow key={i} />
             ))}
           </div>
         ) : history.length > 0 ? (
-          <StaggerList className="rounded-2xl bg-[#0b0e14] border border-white/[0.08] divide-y divide-white/[0.06] overflow-hidden shadow-sm">
+          <StaggerList className="rounded-2xl bg-white dark:bg-[#0b0e14] border border-slate-200 dark:border-white/[0.08] divide-y divide-slate-100 dark:divide-white/[0.06] overflow-hidden shadow-sm transition-colors duration-300">
             {history.map((item) => (
               <StaggerItem
                 key={item.id}
-                className="p-5 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:bg-white/[0.02] transition-colors"
+                className="p-5 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:bg-slate-50 dark:hover:bg-white/[0.02] transition-colors"
               >
                 <div className="space-y-1.5">
                   <div className="flex items-center gap-2 flex-wrap">
-                    <h3 className="text-sm font-semibold text-white">{item.query}</h3>
-                    <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-950/60 text-cyan-400 border border-cyan-800/40">
+                    <h3 className="text-sm font-semibold text-slate-900 dark:text-white">{item.query}</h3>
+                    <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-50 dark:bg-cyan-950/60 text-cyan-700 dark:text-cyan-400 border border-cyan-200 dark:border-cyan-800/40">
                       {item.intent.detectedIntentLabel}
                     </span>
-                    <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-zinc-800 text-zinc-400">
+                    <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-100 dark:bg-zinc-800 text-slate-600 dark:text-zinc-400 border border-slate-200 dark:border-zinc-700">
                       Filtro: {item.dateFilter}
                     </span>
                   </div>
 
-                  <div className="flex items-center gap-3 text-xs font-mono text-zinc-400">
+                  <div className="flex items-center gap-3 text-xs font-mono text-slate-500 dark:text-zinc-400">
                     <span className="flex items-center gap-1">
-                      <Layers className="w-3.5 h-3.5 text-zinc-400" />
+                      <Layers className="w-3.5 h-3.5 text-slate-400 dark:text-zinc-400" />
                       {item.resultsCount} resultados
                     </span>
                     <span>•</span>
                     <span className="flex items-center gap-1">
-                      <Clock className="w-3.5 h-3.5 text-zinc-400" />
+                      <Clock className="w-3.5 h-3.5 text-slate-400 dark:text-zinc-400" />
                       {new Date(item.createdAt).toLocaleString('pt-PT')}
                     </span>
                   </div>
@@ -133,7 +133,7 @@ export default function HistoryPage() {
                 <div className="flex items-center gap-2">
                   <Link
                     href={`/app/search?q=${encodeURIComponent(item.query)}`}
-                    className="px-4 py-2 rounded-lg bg-white/[0.06] hover:bg-cyan-500 hover:text-black border border-white/[0.1] hover:border-cyan-400 text-xs font-mono uppercase tracking-wider text-white transition-all flex items-center gap-1.5"
+                    className="px-4 py-2 rounded-lg bg-slate-100 dark:bg-white/[0.06] hover:bg-cyan-500 hover:text-slate-950 dark:hover:text-black border border-slate-200 dark:border-white/[0.1] hover:border-cyan-400 text-xs font-mono uppercase tracking-wider text-slate-700 dark:text-white transition-all flex items-center gap-1.5 shadow-sm"
                   >
                     <span>Repetir Pesquisa</span>
                     <ArrowRight className="w-3.5 h-3.5" />
@@ -143,15 +143,15 @@ export default function HistoryPage() {
             ))}
           </StaggerList>
         ) : (
-          <div className="p-12 rounded-2xl bg-[#0b0e14]/50 border border-white/[0.06] text-center space-y-3 max-w-md mx-auto my-8">
-            <Clock className="w-6 h-6 mx-auto text-zinc-600" />
-            <h3 className="text-sm font-semibold text-white">Sem histórico registado</h3>
-            <p className="text-xs text-zinc-500">
+          <div className="p-12 rounded-2xl bg-white dark:bg-[#0b0e14]/50 border border-slate-200 dark:border-white/[0.06] text-center space-y-3 max-w-md mx-auto my-8 shadow-sm transition-colors duration-300">
+            <Clock className="w-6 h-6 mx-auto text-slate-400 dark:text-zinc-600" />
+            <h3 className="text-sm font-semibold text-slate-900 dark:text-white">Sem histórico registado</h3>
+            <p className="text-xs text-slate-500 dark:text-zinc-500">
               As suas pesquisas e parâmetros de descoberta ficarão salvaguardados aqui para reanálise futura.
             </p>
             <Link
               href="/app/search"
-              className="inline-block px-4 py-2 rounded-lg bg-cyan-500 text-black text-xs font-mono font-semibold uppercase tracking-wider mt-2"
+              className="inline-block px-4 py-2 rounded-lg bg-cyan-500 text-slate-950 font-bold text-xs font-mono uppercase tracking-wider mt-2 shadow-sm"
             >
               Fazer Primeira Pesquisa
             </Link>

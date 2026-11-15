@@ -46,7 +46,7 @@ export function AnimatedSection({
       transition={{
         duration: 0.55,
         delay,
-        ease: [0.21, 0.47, 0.32, 0.98],
+        ease: [0.22, 1, 0.36, 1],
       }}
       className={className}
       {...props}

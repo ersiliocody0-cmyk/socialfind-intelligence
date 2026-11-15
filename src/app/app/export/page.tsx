@@ -66,9 +66,9 @@ export default function ExportPage() {
 
       <main className="p-6 md:p-8 space-y-6 max-w-5xl mx-auto w-full">
         {/* Format Selector */}
-        <AnimatedSection className="p-6 rounded-2xl bg-[#0b0e14] border border-white/[0.08] space-y-4">
-          <h2 className="text-sm font-semibold text-white tracking-tight flex items-center gap-2">
-            <FileDown className="w-4 h-4 text-cyan-400" />
+        <AnimatedSection className="p-6 rounded-2xl bg-white dark:bg-[#0b0e14] border border-slate-200 dark:border-white/[0.08] space-y-4 shadow-sm transition-colors duration-300">
+          <h2 className="text-sm font-semibold text-slate-900 dark:text-white tracking-tight flex items-center gap-2">
+            <FileDown className="w-4 h-4 text-cyan-500 dark:text-cyan-400" />
             <span>1. Escolha o Formato do Ficheiro</span>
           </h2>
 
@@ -87,13 +87,13 @@ export default function ExportPage() {
                     onClick={() => setSelectedFormat(f.id as any)}
                     className={`w-full p-4 rounded-xl border text-left transition-all ${
                       isSelected
-                        ? 'bg-cyan-950/30 border-cyan-500/80 text-white shadow-[0_0_15px_rgba(0,240,255,0.1)]'
-                        : 'bg-black/30 border-white/[0.06] text-zinc-400 hover:text-white hover:bg-white/[0.04]'
+                        ? 'bg-cyan-50 dark:bg-cyan-950/30 border-cyan-500 text-slate-950 dark:text-white shadow-[0_0_15px_rgba(0,240,255,0.1)]'
+                        : 'bg-slate-50 dark:bg-black/30 border-slate-200 dark:border-white/[0.06] text-slate-600 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/[0.04]'
                     }`}
                   >
-                    <Icon className={`w-5 h-5 mb-2 ${isSelected ? 'text-cyan-400' : 'text-zinc-500'}`} />
-                    <div className="text-xs font-semibold text-white">{f.label}</div>
-                    <div className="text-[11px] text-zinc-500 mt-0.5">{f.desc}</div>
+                    <Icon className={`w-5 h-5 mb-2 ${isSelected ? 'text-cyan-600 dark:text-cyan-400' : 'text-slate-400 dark:text-zinc-500'}`} />
+                    <div className="text-xs font-semibold text-slate-900 dark:text-white">{f.label}</div>
+                    <div className="text-[11px] text-slate-500 dark:text-zinc-500 mt-0.5">{f.desc}</div>
                   </button>
                 </StaggerItem>
               );
@@ -102,16 +102,16 @@ export default function ExportPage() {
         </AnimatedSection>
 
         {/* Source Cards */}
-        <AnimatedSection className="p-6 rounded-2xl bg-[#0b0e14] border border-white/[0.08] space-y-4">
-          <h2 className="text-sm font-semibold text-white tracking-tight flex items-center gap-2">
-            <Database className="w-4 h-4 text-emerald-400" />
+        <AnimatedSection className="p-6 rounded-2xl bg-white dark:bg-[#0b0e14] border border-slate-200 dark:border-white/[0.08] space-y-4 shadow-sm transition-colors duration-300">
+          <h2 className="text-sm font-semibold text-slate-900 dark:text-white tracking-tight flex items-center gap-2">
+            <Database className="w-4 h-4 text-emerald-500 dark:text-emerald-400" />
             <span>2. Selecione a Origem dos Dados</span>
           </h2>
 
-          <div className="p-5 rounded-xl bg-black/40 border border-white/[0.06] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="p-5 rounded-xl bg-slate-50 dark:bg-black/40 border border-slate-200 dark:border-white/[0.06] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-              <h3 className="text-sm font-semibold text-white">Publicações nos Favoritos</h3>
-              <p className="text-xs text-zinc-400 mt-0.5">
+              <h3 className="text-sm font-semibold text-slate-900 dark:text-white">Publicações nos Favoritos</h3>
+              <p className="text-xs text-slate-600 dark:text-zinc-400 mt-0.5">
                 Total de {favorites.length} publicações arquivadas com todas as notas e metadados.
               </p>
             </div>
@@ -120,11 +120,11 @@ export default function ExportPage() {
               type="button"
               onClick={() => handleExportData('favorites')}
               disabled={favorites.length === 0 || isExporting}
-              className="px-5 py-2.5 rounded-lg bg-cyan-500 hover:bg-cyan-400 disabled:opacity-40 disabled:cursor-not-allowed text-black text-xs font-mono font-semibold uppercase tracking-wider flex items-center justify-center gap-2 transition-all shrink-0 min-w-[170px]"
+              className="px-5 py-2.5 rounded-lg bg-cyan-500 hover:bg-cyan-400 disabled:opacity-40 disabled:cursor-not-allowed text-slate-950 text-xs font-mono font-bold uppercase tracking-wider flex items-center justify-center gap-2 transition-all shrink-0 min-w-[170px] shadow-sm"
             >
               {isExporting ? (
                 <>
-                  <Loader2 className="w-4 h-4 text-black animate-spin" />
+                  <Loader2 className="w-4 h-4 text-slate-950 animate-spin" />
                   <span>A processar...</span>
                 </>
               ) : (
@@ -138,8 +138,8 @@ export default function ExportPage() {
         </AnimatedSection>
 
         {/* Schema Documentation Strip */}
-        <AnimatedSection className="p-6 rounded-2xl bg-zinc-900/30 border border-white/[0.06] space-y-2 text-xs font-mono text-zinc-400">
-          <span className="text-white font-semibold block mb-1">Campos incluídos no ficheiro exportado:</span>
+        <AnimatedSection className="p-6 rounded-2xl bg-slate-50 dark:bg-zinc-900/30 border border-slate-200 dark:border-white/[0.06] space-y-2 text-xs font-mono text-slate-600 dark:text-zinc-400 transition-colors duration-300">
+          <span className="text-slate-900 dark:text-white font-semibold block mb-1">Campos incluídos no ficheiro exportado:</span>
           <p className="leading-relaxed">
             <code>Título</code>, <code>URL</code>, <code>Grupo_ou_Fonte</code>, <code>Tipo_Conteudo</code>, <code>Data_Publicacao</code>, <code>Confianca_Data</code>, <code>Relevancia</code>, <code>Excerto</code>.
           </p>

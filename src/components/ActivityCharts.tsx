@@ -64,12 +64,12 @@ export function ActivityCharts({ results }: ActivityChartsProps) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       {/* Chart 1: Content Type Distribution */}
-      <div className="p-4 rounded-xl bg-[#0b0e14]/90 border border-white/[0.08] space-y-3">
+      <div className="p-4 rounded-xl bg-white dark:bg-[#0b0e14]/90 border border-slate-200 dark:border-white/[0.08] space-y-3 shadow-sm transition-colors duration-300">
         <div className="flex items-center justify-between">
-          <h4 className="text-xs font-mono uppercase tracking-wider text-zinc-400">
+          <h4 className="text-xs font-mono uppercase tracking-wider text-slate-600 dark:text-zinc-400">
             Distribuição por Formato
           </h4>
-          <span className="text-[10px] font-mono text-cyan-400">Classificação IA</span>
+          <span className="text-[10px] font-mono text-cyan-600 dark:text-cyan-400">Classificação IA</span>
         </div>
         <div className="h-44 w-full">
           <ResponsiveContainer width="100%" height="100%">
@@ -92,12 +92,12 @@ export function ActivityCharts({ results }: ActivityChartsProps) {
       </div>
 
       {/* Chart 2: Date Confidence Breakdown */}
-      <div className="p-4 rounded-xl bg-[#0b0e14]/90 border border-white/[0.08] space-y-3">
+      <div className="p-4 rounded-xl bg-white dark:bg-[#0b0e14]/90 border border-slate-200 dark:border-white/[0.08] space-y-3 shadow-sm transition-colors duration-300">
         <div className="flex items-center justify-between">
-          <h4 className="text-xs font-mono uppercase tracking-wider text-zinc-400">
+          <h4 className="text-xs font-mono uppercase tracking-wider text-slate-600 dark:text-zinc-400">
             Confiança Temporal dos Resultados
           </h4>
-          <span className="text-[10px] font-mono text-emerald-400">Auditoria</span>
+          <span className="text-[10px] font-mono text-emerald-600 dark:text-emerald-400">Auditoria</span>
         </div>
         <div className="h-44 w-full flex items-center justify-center">
           <ResponsiveContainer width="100%" height="100%">
@@ -129,7 +129,7 @@ export function ActivityCharts({ results }: ActivityChartsProps) {
         </div>
         <div className="flex items-center justify-center gap-3 flex-wrap text-[10px] font-mono">
           {confidenceData.map((d, i) => (
-            <div key={i} className="flex items-center gap-1.5 text-zinc-400">
+            <div key={i} className="flex items-center gap-1.5 text-slate-600 dark:text-zinc-400">
               <span className="w-2 h-2 rounded-full" style={{ backgroundColor: d.color }} />
               <span>{d.name}: {d.value}</span>
             </div>
